@@ -1,0 +1,4 @@
+INSERT INTO usuarios(Id_usuario, Email_usuario, Senha_usuario, Nome_usuario, Tipo_usuario) VALUE (1, "teste@gmail", "123", "teste", "Usuario");
+
+
+INSERT INTO registros (id_registro, id_criador, data_inicio, data_registro, entulho, id_responsavel, poeira_excessiva, previsao, ruido_excessivo, descricao, funcionamneto, status, tipo_local, tipo_registro, titulo, trafegop, trafegov) VALUES (1, 100, '2026-05-03', '2026-05-03', false, NULL, true, '2026-05-20', true, 'Interdição parcial da via para manutenção', Null, 'Em andamento', 'Rua', 'Manutenção', 'Obra na avenida central', 'Impede', 'Dificulta');
