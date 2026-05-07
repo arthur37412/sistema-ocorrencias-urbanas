@@ -5,27 +5,50 @@
     <meta charset="UTF-8">
     <title>Sistema de Ocorrências Urbanas</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"> <!---temporario só para mim lembrar como isso funciona-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"> <!---temporario-->
+	
+	<!--css-->
+	<link rel="stylesheet" href="/css/style.css">
+	
+	<!--leaflet-->
+	<link rel="stylesheet" href="/css/leaflet.css">
+	    
+		 
 </head>
 
 <body>
 
-    <div class="container mt-5">
-
-        <h1 class="text-center">
+		<header class="header">
+      <nav>
+        <h1 class="text-left">
             Sistema de Ocorrências Urbanas
         </h1>
-
-        <p class="text-center">
-            teste
-        </p>
-
-        <button class="btn btn-primary">
-            Teste Bootstrap
-        </button>
-
-    </div>
-
+		
+		<button id = "btnRegistrar">
+			Criar registro
+		</button>
+		
+		</nav>
+		</header>
+		
+		<div id="map"></div>
+		
+		
+		<!--rodape-->
+		<footer>
+		  Footer
+	    </footer>
+		
+		<div id="popupCriar" class="popup">
+		    Selecione o loacal afetado no mapa.
+		</div>
+		
+		
+	     <!--javascript-->
+		 <script src="/js/leaflet.js"></script>
+		 <script src="/js/mapa.js"></script>
+		 
+		
 </body>
 
 </html>
