@@ -71,7 +71,7 @@ public class RegistroController {
 		    registroUpdate.setTrafegoV(registro.getTrafegoV());
 		    registroUpdate.setTrafegoP(registro.getTrafegoP());
 		    registroUpdate.setTipoLocal(registro.getTipoLocal());
-		    registroUpdate.setFuncionamneto(registro.getFuncionamneto());
+		    registroUpdate.setFuncionamento(registro.getFuncionamento());
 		    registroUpdate.setRuidoExcessivo(registro.isRuidoExcessivo());
 		    registroUpdate.setPoeiraExcessiva(registro.isPoeiraExcessiva());
 		    registroUpdate.setEntulho(registro.isEntulho());

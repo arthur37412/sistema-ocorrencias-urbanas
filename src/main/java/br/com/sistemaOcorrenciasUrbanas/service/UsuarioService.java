@@ -30,6 +30,11 @@ public class UsuarioService {
 		return usuarioRepository.findByNomeUsuario(nomeUsuario);
 	}
 	
+	//Buscar por email
+	public Usuario buscarPorEmail(String emailUsuario) {
+		return usuarioRepository.findByEmailUsuario(emailUsuario);
+	}
+	
 	//Create e update
 	public Usuario saveUsuario(Usuario usuario) {
 		return usuarioRepository.save(usuario);
@@ -40,16 +45,15 @@ public class UsuarioService {
 		usuarioRepository.deleteById(idUsuario);
 	}
 	
-	
-	/*public Usuario fazerLogin(String emailUsuario, String senhaUsuario) {
+	public Usuario fazerLogin(String emailUsuario, String senhaUsuario) {
 		Usuario usuario = usuarioRepository.findByEmailUsuario(emailUsuario);
 		if(usuario == null)
 			return null;
-		if(!usuario.getSenha().equals(senhaUsuario))
+		if(!usuario.getSenhaUsuario().equals(senhaUsuario))
 			return null;
 		
 		return usuario;
-	}*/
+	}
 	
 	
 

@@ -38,7 +38,7 @@ public class Registro {
 	private String trafegoV;
 	private String trafegoP;
 	private String tipoLocal;
-	private String funcionamneto;
+	private String funcionamento;
 	private boolean ruidoExcessivo;
 	private boolean poeiraExcessiva;
 	private boolean entulho;
@@ -48,7 +48,7 @@ public class Registro {
 	
 	public Registro(int idRegistro, String titulo, String descricao, String tipoRegistro, Integer idCriador,
 			LocalDate dataRegistro, Integer idResponsavel, LocalDate dataInicio, LocalDate previsao, String status,
-			String trafegoV, String trafegoP, String tipoLocal, String funcionamneto, boolean ruidoExcessivo,
+			String trafegoV, String trafegoP, String tipoLocal, String funcionamento, boolean ruidoExcessivo,
 			boolean poeiraExcessiva, boolean entulho) {
 		super();
 		this.idRegistro = idRegistro;
@@ -64,7 +64,7 @@ public class Registro {
 		this.trafegoV = trafegoV;
 		this.trafegoP = trafegoP;
 		this.tipoLocal = tipoLocal;
-		this.funcionamneto = funcionamneto;
+		this.funcionamento = funcionamento;
 		this.ruidoExcessivo = ruidoExcessivo;
 		this.poeiraExcessiva = poeiraExcessiva;
 		this.entulho = entulho;
@@ -176,12 +176,12 @@ public class Registro {
 		this.tipoLocal = tipoLocal;
 	}
 
-	public String getFuncionamneto() {
-		return funcionamneto;
+	public String getFuncionamento() {
+		return funcionamento;
 	}
 
-	public void setFuncionamneto(String funcionamneto) {
-		this.funcionamneto = funcionamneto;
+	public void setFuncionamento(String funcionamento) {
+		this.funcionamento = funcionamento;
 	}
 
 	public boolean isRuidoExcessivo() {

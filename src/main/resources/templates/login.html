@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+	<header class="header">
+	      <nav>
+	        <h1 class="text-left">
+	            Sistema de Ocorrências Urbanas
+	        </h1>
+			
+			</nav>
+	</header>
+			
+
+    <div class="container-login">
+
+        <h2 style="text-align: center; font-size: x-large;">Login</h2>
+		
+		<div th:if="${sucesso}" id="alertaSucessoC" class="alerta-sucesso">
+		    <span th:text="${sucesso}"></span>
+		</div>
+		
+		<div th:if="${erroLogin}" id="alertaErroL" class="alerta-erro">
+				    <span th:text="${erroLogin}"></span>
+				</div>
+
+        <form th:action="@{/login}" method="post">
+
+            <input type="email" name="emailUsuario" placeholder="Email">
+
+            <input type="password" name="senhaUsuario" placeholder="Senha">
+
+            <button type="submit">
+                Entrar
+            </button>
+
+        </form>
+
+        <a th:href="@{/cadastro}">
+            Criar conta
+        </a>
+
+    </div>
+	
+	<!--javascript-->
+	<script src="/js/script.js"></script>
+
+</body>
+</html>

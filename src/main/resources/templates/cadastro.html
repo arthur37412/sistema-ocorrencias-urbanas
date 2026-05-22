@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+	
+	<header class="header">
+		      <nav>
+		        <h1 class="text-left">
+		            Sistema de Ocorrências Urbanas
+		        </h1>
+				
+				</nav>
+		</header>
+
+    <div class="container-login">
+
+        <h1>Criar Conta</h1>
+		
+		<div th:if="${erroCadastro}" id="alertaErroC" class="alerta-erro">
+			    <span th:text="${erroCadastro}"></span>
+			</div>
+
+
+        <form th:action="@{/cadastro}" method="post">
+
+            <input type = "text" id = "nomeUsuario" name = "nomeUsuario" placeholder = "Nome" required>
+
+            <input type = "email" name = "emailUsuario" placeholder = "Email" required>
+
+            <input type = "password" name = "senhaUsuario" placeholder = "Senha" required>
+
+            <select name = "tipoUsuario" required >
+                <option value="" disabled selected hidden>
+                    Tipo de usuário
+                </option>
+                <option value="Cidadao">
+                    Cidadão
+                </option>
+                <option value="Prestador">
+                    Prestador de Serviço
+                </option>
+            </select>
+
+            <button type="submit">
+                Cadastrar
+            </button>
+
+        </form>
+
+        <a th:href="@{/login}">
+            Login
+        </a>
+
+    </div>
+	
+	<!--javascript-->
+	<script src="/js/script.js"></script>
+</body>
+</html>

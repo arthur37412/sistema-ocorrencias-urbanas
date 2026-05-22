@@ -9,7 +9,7 @@ map.on('drag', function () {
 
 var marker = L.marker([-23.4538, -46.5333]).addTo(map);
 
-L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
+L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png', {
 	minZoom: 12,
     maxZoom: 16,
     attribution: '&copy; OpenStreetMap & CartoDB'
@@ -21,7 +21,7 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png
 //cria o modo de criação de registros e o define como desativado
 let Criando = false;
 
-const popup = document.getElementById("popupCriar"); //cria o popup que pede para seleconar um lcoal
+const popup = document.getElementById("popupCriar"); //cria o popup que pede para selecionar um lcoal
 
 //oq ocorre ao apertar o botão criar
 document.getElementById("btnRegistrar").addEventListener("click", function () {

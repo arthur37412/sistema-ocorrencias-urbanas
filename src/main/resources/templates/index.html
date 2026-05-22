@@ -12,8 +12,7 @@
 	
 	<!--leaflet-->
 	<link rel="stylesheet" href="/css/leaflet.css">
-	    
-		 
+	     
 </head>
 
 <body>
@@ -24,15 +23,54 @@
             Sistema de Ocorrências Urbanas
         </h1>
 		
+		<div class = "area-direita">
+		
 		<button id = "btnRegistrar">
 			Criar registro
 		</button>
 		
+		
+		<div th:if="${usuario == null}">
+		    <a th:href="@{/login}" class="botao-login">
+		        Entrar
+		    </a>
+		</div>
+
+		
+		
+		<div th:if="${usuario != null}"
+		     class="dropdown-usuario">
+
+		    <button class="botao-dropdown">
+
+		        <img src="/images/user.png"
+		             class="icone-usuario">
+
+		        <span th:text="${usuario.nomeUsuario}">
+		        </span>
+
+		    </button>
+
+		
+		<div class="menu-dropdown">
+		        <a href="#">
+		            Perfil
+		        </a>
+		        <a href="#">
+		            Minhas Ocorrências
+		        </a>
+		        <a th:href="@{/sair}">
+		            Sair
+		        </a>
+
+		    </div>
+			
+	    </div>
+	
 		</nav>
 		</header>
 		
 		<div id="map"></div>
-		
 		
 		<!--rodape-->
 		<footer>
@@ -40,13 +78,13 @@
 	    </footer>
 		
 		<div id="popupCriar" class="popup">
-		    Selecione o loacal afetado no mapa.
+		    Selecione o local afetado no mapa.
 		</div>
-		
 		
 	     <!--javascript-->
 		 <script src="/js/leaflet.js"></script>
 		 <script src="/js/mapa.js"></script>
+		 <script src="/js/script.js"></script>
 		 
 		
 </body>

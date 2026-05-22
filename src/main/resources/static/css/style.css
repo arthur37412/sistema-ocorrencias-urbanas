@@ -1,24 +1,336 @@
- /* tamanho do mapa */
+/* tamanho do mapa */
 #map {
 	  height: calc(100vh - 90px);
 	/*width: 360px;*/
-  }
+}
 	 
 nav {
-	    display: flex;
-	    justify-content: space-between;
-	    align-items: center;
-	    padding: 10px 20px;
+
+	display: flex;
+
+	justify-content: space-between;
+
+	align-items: center;
+
+	padding: 10px 20px;
+
+	background-color: #dee2e6;
 }
 
+
+/* =========================
+   ÁREA DIREITA NAVBAR
+========================= */
+
+.area-direita{
+
+	display: flex;
+
+	align-items: center;
+
+	gap: 15px;
+
+	margin-right: 20px;
+}
+
+
+/* =========================
+   BOTÃO CRIAR
+========================= */
+
+#btnRegistrar{
+
+	padding: 8px 14px;
+
+	border: none;
+
+	background-color: #0d6efd;
+
+	color: white;
+
+	cursor: pointer;
+}
+
+
+/* =========================
+   POP-UP
+========================= */
+
 .popup{
+
     position: fixed;
+
     top: 80px;
+
     right: 20px;
+
     background: #222;
+
     color: white;
+
     padding: 10px 15px;
+
     border-radius: 6px;
+
     display: none;
+
     z-index: 9999;
+}
+
+
+/* =========================
+   BODY
+========================= */
+
+body{
+
+    margin: 0;
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    background: #f4f4f4;
+}
+
+
+/* =========================
+   LOGIN/CADASTRO
+========================= */
+
+.container-login{
+
+    width: 350px;
+
+    background: white;
+
+    padding: 30px;
+
+    border-radius: 10px;
+
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+
+    margin: 100px auto;
+}
+
+.container-login h1{
+
+    text-align: center;
+
+    margin-bottom: 20px;
+}
+
+.container-login form{
+
+    display: flex;
+
+    flex-direction: column;
+}
+
+.container-login input,
+.container-login select{
+
+    margin-bottom: 15px;
+
+    padding: 10px;
+
+    border-radius: 5px;
+
+    border: 1px solid #ccc;
+}
+
+.container-login button{
+
+    padding: 10px;
+
+    border: none;
+
+    border-radius: 5px;
+
+    background: #0d6efd;
+
+    color: white;
+
+    cursor: pointer;
+}
+
+.container-login button:hover{
+
+    background: #0b5ed7;
+}
+
+.container-login a{
+
+    text-align: center;
+
+    margin-top: 15px;
+
+    text-decoration: none;
+
+    color: #0d6efd;
+
+    display: block;
+}
+
+
+/* =========================
+   ALERTAS
+========================= */
+
+.alerta-sucesso{
+
+    background-color: #d1e7dd;
+
+    color: #0f5132;
+
+    padding: 10px;
+
+    border-radius: 5px;
+
+    margin-bottom: 15px;
+
+    text-align: center;
+	
+    transition: opacity 0.5s;
+}
+
+.alerta-erro{
+
+    background-color: #f8d7da;
+
+    color: #842029;
+
+    padding: 10px;
+
+    border-radius: 5px;
+
+    margin-bottom: 15px;
+
+    text-align: center;
+
+    transition: opacity 0.5s;
+}
+
+
+/* =========================
+   DROPDOWN USUÁRIO
+========================= */
+
+.dropdown-usuario{
+
+    position: relative;
+
+    display: inline-block;
+
+    margin-right: 15px;
+}
+
+
+/* =========================
+   BOTÃO USUÁRIO
+========================= */
+
+.botao-dropdown{
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    background: none;
+
+    border: none;
+
+    cursor: pointer;
+
+    font-size: 16px;
+
+    color: black;
+
+    position: relative;
+}
+
+
+/* =========================
+   ÍCONE USUÁRIO
+========================= */
+
+.icone-usuario{
+
+    width: 36px;
+
+    height: 36px;
+
+    border-radius: 50%;
+}
+
+
+/* =========================
+   MENU DROPDOWN
+========================= */
+
+.menu-dropdown{
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    transition:
+        opacity 0.2s ease,
+        visibility 0.2s ease;
+
+    position: absolute;
+
+    top: 45px;
+
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    background-color: #dee2e6;
+
+    min-width: 180px;
+
+    z-index: 9999;
+
+    border: 1px solid #c6cbd1;
+}
+
+
+/* =========================
+   LINKS MENU
+========================= */
+
+.menu-dropdown a{
+
+    display: block;
+
+    padding: 12px;
+
+    text-decoration: none;
+
+    color: black;
+}
+
+
+/* =========================
+   HOVER LINKS
+========================= */
+
+.menu-dropdown a:hover{
+
+    background-color: #cfd4d9;
+}
+
+
+/* =========================
+   MOSTRAR DROPDOWN
+========================= */
+
+.dropdown-usuario:hover .menu-dropdown,
+
+.menu-dropdown:hover{
+
+    opacity: 1;
+
+    visibility: visible;
 }
