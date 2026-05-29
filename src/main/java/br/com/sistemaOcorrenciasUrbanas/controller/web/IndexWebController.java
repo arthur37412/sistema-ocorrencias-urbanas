@@ -5,11 +5,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-
+import br.com.sistemaOcorrenciasUrbanas.model.entity.Registro;
 import br.com.sistemaOcorrenciasUrbanas.model.entity.Usuario;
+import br.com.sistemaOcorrenciasUrbanas.service.RegistroService;
 import br.com.sistemaOcorrenciasUrbanas.service.UsuarioService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -19,7 +22,10 @@ import jakarta.servlet.http.HttpSession;
 public class IndexWebController {
 	
 	 @Autowired
-	    private UsuarioService usuarioService;
+	 private UsuarioService usuarioService;
+	 
+	 @Autowired
+	 private RegistroService registroService;
 
 	 public String index() {
 	        return "index";
@@ -31,6 +37,18 @@ public class IndexWebController {
 			model.addAttribute("usuario", usuario);
 			return "index";
 		}
+	 
+	 //Criar registros
+	 @PostMapping("api/registros")
+	 @ResponseBody
+	 public Registro insert(@RequestBody Registro registro, HttpSession session) {
+	 Usuario usuario = (Usuario) session.getAttribute("usuarioLogado");
+	 if(usuario == null){
+		throw new RuntimeException("É necessário entrar em sua conta para criar um registro");
+		}
+	 registro.setIdCriador(usuario.getIdUsuario());
+	 return registroService.saveRegistro(registro);
+	 }
 	 
 	 
 	 @GetMapping("/login")

@@ -334,3 +334,183 @@ body{
 
     visibility: visible;
 }
+
+/* =========================
+   POP-UP REGISTRO
+========================= */
+
+.popup-registro{
+
+    position: fixed;
+
+    top: 50%;
+
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    background: white;
+
+    padding: 16px;
+
+    border-radius: 12px;
+
+    z-index: 99999;
+
+    display: none;
+
+    width: 430px;
+
+    max-height: 85vh;
+
+    overflow-y: auto;
+
+    box-shadow: 0 0 15px rgba(0,0,0,0.15);
+}
+
+
+/* título */
+
+.popup-registro h3{
+
+    margin-top: 0;
+
+    margin-bottom: 14px;
+
+    font-size: 18px;
+
+    text-align: center;
+}
+
+
+/* inputs e textarea */
+
+.popup-registro input[type="text"],
+.popup-registro textarea{
+
+    width: 100%;
+
+    padding: 10px;
+
+    margin-bottom: 12px;
+
+    box-sizing: border-box;
+
+    border: 1px solid #d6d6d6;
+
+    border-radius: 8px;
+
+    outline: none;
+
+    font-size: 14px;
+}
+
+
+.popup-registro textarea{
+
+    min-height: 75px;
+
+    resize: none;
+}
+
+
+.popup-registro input[type="text"]:focus,
+.popup-registro textarea:focus{
+
+    border-color: #b8b8b8;
+}
+
+
+/* grupos */
+
+.grupo-campos{
+
+    margin-bottom: 12px;
+}
+
+
+.grupo-campos label{
+
+    font-size: 14px;
+}
+
+
+/* opções */
+
+.opcoes,
+.opcoes-checkbox{
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 8px 14px;
+
+    margin-top: 6px;
+}
+
+
+/* label radio/checkbox */
+
+.opcoes label,
+.opcoes-checkbox label{
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 4px;
+
+    margin: 0;
+
+    font-size: 13px;
+
+    cursor: pointer;
+}
+
+
+/* checkbox/radio */
+
+.opcoes input,
+.opcoes-checkbox input{
+
+    margin: 0;
+}
+
+
+/* botão */
+
+.popup-registro button{
+
+    width: 100%;
+
+    padding: 10px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: #0d6efd;
+
+    color: white;
+
+    cursor: pointer;
+
+    font-size: 14px;
+
+    margin-top: 8px;
+}
+
+
+.popup-registro button:hover{
+
+    background: #0b5ed7;
+}
+
+
+/* escondido inicialmente */
+
+#camposPredio{
+
+    display: none;
+}

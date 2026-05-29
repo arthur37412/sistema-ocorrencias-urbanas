@@ -8,7 +8,10 @@ setTimeout(function () {
 }, 3000);*/
 
 const campoNome = document.getElementById("nomeUsuario");
+if(campoNome){
 campoNome.addEventListener("input", function () {
 this.value = this.value.replace(/[^A-Za-zÀ-ÿ\s]/g, '');
+
 });
 
+}

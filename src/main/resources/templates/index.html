@@ -9,7 +9,6 @@
 	
 	<!--css-->
 	<link rel="stylesheet" href="/css/style.css">
-	
 	<!--leaflet-->
 	<link rel="stylesheet" href="/css/leaflet.css">
 	     
@@ -25,9 +24,16 @@
 		
 		<div class = "area-direita">
 		
+		<div th:if="${usuario == null or usuario.tipoUsuario == 'Usuario'}">
 		<button id = "btnRegistrar">
 			Criar registro
 		</button>
+		</div>
+		<div th:if="${usuario != null and (usuario.tipoUsuario == 'Gestor' or usuario.tipoUsuario == 'Administrador') }">
+		    <button id="btnCriarObra">
+		        Criar Obra
+		    </button>
+		</div>
 		
 		
 		<div th:if="${usuario == null}">
@@ -56,9 +62,11 @@
 		        <a href="#">
 		            Perfil
 		        </a>
+				
 		        <a href="#">
 		            Minhas Ocorrências
 		        </a>
+				
 		        <a th:href="@{/sair}">
 		            Sair
 		        </a>
@@ -71,6 +79,168 @@
 		</header>
 		
 		<div id="map"></div>
+		
+		
+		<!-- popup registrar -->
+		<div id="popupRegistro" class="popup-registro">
+
+		    <h3>
+		        Novo Registro
+		    </h3>
+
+		    <input type="text" id="tituloRegistro" placeholder="Resumo">
+
+		    <textarea id="descricaoRegistro" placeholder="Descrição"></textarea>
+
+		    <div class="grupo-campos">
+		        <label>
+		            Tipo
+		        </label>
+		        <div class="opcoes">
+		            <label>
+		            <input type="radio" name="tipoRegistro" value="ObraVia">
+		             Obra em via
+		            </label>
+
+		            <label>
+		            <input type="radio" name="tipoRegistro" value="OcorrenciaVia">
+		             Ocorrência em via
+		            </label>
+
+		            <label>
+		            <input type="radio" name="tipoRegistro" value="ObraPredio">
+		             Obra em prédio
+		            </label>
+
+		        </div>
+		    </div>
+
+
+		    
+		    <div id="camposVia">
+		       
+		        <div class="grupo-campos">
+		            <label>
+		             Tráfego de veículos
+		            </label>
+
+		            <div class="opcoes">
+
+		                <label>
+		                 <input type="radio" name="trafegoV" value="NaoImpede">
+		                  Não impede
+		                </label>
+
+		                <label>
+		                <input type="radio" name="trafegoV" value="Dificulta">
+		                 Dificulta
+		                </label>
+
+		                <label>
+		                <input type="radio" name="trafegoV" value="Impede">
+		                 Impede
+		                </label>
+
+		            </div>
+					
+		        </div>
+
+
+		        <div class="grupo-campos">
+		            <label>
+		             Tráfego de pedestres
+		            </label>
+
+		            <div class="opcoes">
+
+		                <label>
+		                <input type="radio" name="trafegoP" value="NaoImpede">
+		                 Não impede
+		                </label>
+
+		                <label>
+		                <input type="radio" name="trafegoP" value="Dificulta">
+		                 Dificulta
+		                </label>
+
+		                <label>
+		                <input type="radio" name="trafegoP" value="Impede">
+		                 Impede
+		                </label>
+
+		            </div>
+					
+		        </div>
+
+		    </div>
+
+
+		    
+		    <div id="camposPredio">
+		        <div class="grupo-campos">
+
+		            <label>
+		             Funcionamento
+		            </label>
+
+		            <div class="opcoes">
+
+		                <label>
+		                <input type="radio" name="funcionamento" value="Pleno">
+		                 Pleno funcionamento
+		                </label>
+
+		                <label>
+		                <input type="radio" name="funcionamento" value="Parcial">
+		                 Funcionamento parcial
+		                </label>
+
+		                <label>
+		                <input type="radio" name="funcionamento" value="Fechado">
+		                 Fechado
+		                </label>
+
+		            </div>
+					
+		        </div>
+
+		    </div>
+
+
+		    <!-- impactos -->
+		    <div class="grupo-campos">
+
+		        <label>
+		            Impactos
+		        </label>
+
+		        <div class="opcoes-checkbox">
+
+		            <label>
+		            <input type="checkbox" id="ruidoExcessivo">
+		             Ruído excessivo
+		            </label>
+
+		            <label>
+		            <input type="checkbox" id="poeiraExcessiva">
+		             Poeira excessiva
+		            </label>
+
+		            <label>
+		            <input type="checkbox" id="entulho">
+		             Entulho
+		            </label>
+
+		        </div>
+				
+		    </div>
+
+
+		    <button id="btnSalvarRegistro">
+		     Registrar
+		    </button>
+
+		</div>
 		
 		<!--rodape-->
 		<footer>

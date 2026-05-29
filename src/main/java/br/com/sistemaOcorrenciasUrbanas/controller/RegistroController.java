@@ -17,7 +17,7 @@ import br.com.sistemaOcorrenciasUrbanas.model.entity.Usuario;
 import br.com.sistemaOcorrenciasUrbanas.service.RegistroService;
 
 @RestController
-@RequestMapping("/api/registros")
+@RequestMapping("/api/registro")
 public class RegistroController {
 	
 	@Autowired
@@ -70,11 +70,13 @@ public class RegistroController {
 		    registroUpdate.setStatus(registro.getStatus());
 		    registroUpdate.setTrafegoV(registro.getTrafegoV());
 		    registroUpdate.setTrafegoP(registro.getTrafegoP());
-		    registroUpdate.setTipoLocal(registro.getTipoLocal());
 		    registroUpdate.setFuncionamento(registro.getFuncionamento());
 		    registroUpdate.setRuidoExcessivo(registro.isRuidoExcessivo());
 		    registroUpdate.setPoeiraExcessiva(registro.isPoeiraExcessiva());
 		    registroUpdate.setEntulho(registro.isEntulho());
+		    registroUpdate.setLatitude(registro.getLatitude());
+		    registroUpdate.setLongitude(registro.getLongitude());
+		    registroUpdate.setTipoLocal(registro.getTipoLocal());
 		    return registroService.saveRegistro(registroUpdate);
 		}
 	

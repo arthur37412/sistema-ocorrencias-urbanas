@@ -2,6 +2,8 @@ package br.com.sistemaOcorrenciasUrbanas.model.entity;
 
 import java.time.LocalDate;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.Entity;
@@ -10,6 +12,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 
 
@@ -23,33 +26,33 @@ public class Registro {
 	private String descricao;
 	private String tipoRegistro;
 	private Integer idCriador;
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+	@CreationTimestamp
 	private LocalDate dataRegistro;
-	
+	private Double latitude;
+	private Double longitude;
+	private String tipoLocal;
+
 	// obras assumidas
 	private Integer idResponsavel;
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
 	private LocalDate dataInicio;
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
 	private LocalDate previsao;
 	private String status;
 	
 	//consequencias dos registros
 	private String trafegoV;
 	private String trafegoP;
-	private String tipoLocal;
 	private String funcionamento;
-	private boolean ruidoExcessivo;
-	private boolean poeiraExcessiva;
-	private boolean entulho;
+	private Boolean ruidoExcessivo;
+	private Boolean poeiraExcessiva;
+	private Boolean entulho;
 	
 	//construtor
 		public Registro() {}
 	
 	public Registro(int idRegistro, String titulo, String descricao, String tipoRegistro, Integer idCriador,
-			LocalDate dataRegistro, Integer idResponsavel, LocalDate dataInicio, LocalDate previsao, String status,
-			String trafegoV, String trafegoP, String tipoLocal, String funcionamento, boolean ruidoExcessivo,
-			boolean poeiraExcessiva, boolean entulho) {
+			LocalDate dataRegistro, Double latitude, Double longitude, String tipoLocal, Integer idResponsavel, LocalDate dataInicio, LocalDate previsao, String status,
+			String trafegoV, String trafegoP, String funcionamento, Boolean ruidoExcessivo,
+			Boolean poeiraExcessiva, Boolean entulho) {
 		super();
 		this.idRegistro = idRegistro;
 		this.titulo = titulo;
@@ -57,13 +60,15 @@ public class Registro {
 		this.tipoRegistro = tipoRegistro;
 		this.idCriador = idCriador;
 		this.dataRegistro = dataRegistro;
+		this.latitude = latitude;
+		this.longitude = longitude;
+		this.tipoLocal = tipoLocal;
 		this.idResponsavel = idResponsavel;
 		this.dataInicio = dataInicio;
 		this.previsao = previsao;
 		this.status = status;
 		this.trafegoV = trafegoV;
 		this.trafegoP = trafegoP;
-		this.tipoLocal = tipoLocal;
 		this.funcionamento = funcionamento;
 		this.ruidoExcessivo = ruidoExcessivo;
 		this.poeiraExcessiva = poeiraExcessiva;
@@ -168,14 +173,6 @@ public class Registro {
 		this.trafegoP = trafegoP;
 	}
 
-	public String getTipoLocal() {
-		return tipoLocal;
-	}
-
-	public void setTipoLocal(String tipoLocal) {
-		this.tipoLocal = tipoLocal;
-	}
-
 	public String getFuncionamento() {
 		return funcionamento;
 	}
@@ -184,30 +181,53 @@ public class Registro {
 		this.funcionamento = funcionamento;
 	}
 
-	public boolean isRuidoExcessivo() {
+	public Boolean isRuidoExcessivo() {
 		return ruidoExcessivo;
 	}
 
-	public void setRuidoExcessivo(boolean ruidoExcessivo) {
+	public void setRuidoExcessivo(Boolean ruidoExcessivo) {
 		this.ruidoExcessivo = ruidoExcessivo;
 	}
 
-	public boolean isPoeiraExcessiva() {
+	public Boolean isPoeiraExcessiva() {
 		return poeiraExcessiva;
 	}
 
-	public void setPoeiraExcessiva(boolean poeiraExcessiva) {
+	public void setPoeiraExcessiva(Boolean poeiraExcessiva) {
 		this.poeiraExcessiva = poeiraExcessiva;
 	}
 
-	public boolean isEntulho() {
+	public Boolean isEntulho() {
 		return entulho;
 	}
 
-	public void setEntulho(boolean entulho) {
+	public void setEntulho(Boolean entulho) {
 		this.entulho = entulho;
 	}
 	
+	public Double getLatitude() {
+		return latitude;
+	}
 
+	public void setLatitude(Double latitude) {
+		this.latitude = latitude;
+	}
 
+	public Double getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(Double longitude) {
+		this.longitude = longitude;
+	}
+
+	public String getTipoLocal() {
+		return tipoLocal;
+	}
+
+	public void setTipoLocal(String tipoLocal) {
+		this.tipoLocal = tipoLocal;
+	}
+	
+	
 }
