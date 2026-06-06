@@ -24,11 +24,16 @@
 		
 		<div class = "area-direita">
 		
-		<div th:if="${usuario == null or usuario.tipoUsuario == 'Usuario'}">
-		<button id = "btnRegistrar">
+		<div th:if="${usuario == null or usuario.tipoUsuario == 'Usuario'}" class="wrapper-registro">
+		<button id = "btnRegistrar" th:disabled="${usuario == null}">
 			Criar registro
 		</button>
+		<div th:if="${usuario == null}" class="tooltip-login">
+		        Faça login para fazer um registro
+		    </div>
 		</div>
+		
+		
 		<div th:if="${usuario != null and (usuario.tipoUsuario == 'Gestor' or usuario.tipoUsuario == 'Administrador') }">
 		    <button id="btnCriarObra">
 		        Criar Obra
@@ -87,6 +92,10 @@
 		    <h3>
 		        Novo Registro
 		    </h3>
+			
+			<span id="fecharPopup" class="fechar-popup">
+			       ×
+			   </span>
 
 		    <input type="text" id="tituloRegistro" placeholder="Resumo">
 
@@ -98,23 +107,21 @@
 		        </label>
 		        <div class="opcoes">
 		            <label>
-		            <input type="radio" name="tipoRegistro" value="ObraVia">
-		             Obra em via
+		            <input type="radio" name="tipoRegistro" value="IrregularidadeVia">
+		             Irregularidade em via
 		            </label>
 
 		            <label>
-		            <input type="radio" name="tipoRegistro" value="OcorrenciaVia">
-		             Ocorrência em via
-		            </label>
-
-		            <label>
-		            <input type="radio" name="tipoRegistro" value="ObraPredio">
-		             Obra em prédio
+		            <input type="radio" name="tipoRegistro" value="IrregularidadePredio">
+		             Irregularidde em prédio
 		            </label>
 
 		        </div>
 		    </div>
 
+			<label>
+		      Impactos
+	        </label>
 
 		    
 		    <div id="camposVia">
@@ -208,11 +215,13 @@
 
 
 		    <!-- impactos -->
+			
+			<label>
+				Outros
+			</label>
+			
 		    <div class="grupo-campos">
 
-		        <label>
-		            Impactos
-		        </label>
 
 		        <div class="opcoes-checkbox">
 
@@ -234,6 +243,57 @@
 		        </div>
 				
 		    </div>
+			
+			<!--Campos que so existem ao criar obras-->
+			<div id="camposObra">
+
+			    <div class="grupo-campos">
+
+			        <label>Data de início</label>
+
+			        <input type="date" id="dataInicio">
+
+			    </div>
+
+			    <div class="grupo-campos">
+
+			        <label>Previsão</label>
+
+			        <input type="date" id="previsao">
+
+			    </div>
+
+			    <div class="grupo-campos">
+
+			        <label>Status</label>
+
+			        <div class="opcoes">
+
+			            <label>
+			                <input type="radio" name="status" value="Planejado">
+			                Planejado
+			            </label>
+
+			            <label>
+			                <input type="radio" name="status" value="Em andamento">
+			                Em andamento
+			            </label>
+
+			            <label>
+			                <input type="radio" name="status" value="Em pausa">
+			                Em pausa
+			            </label>
+
+			            <label>
+			                <input type="radio" name="status" value="Concluído">
+			                Concluído
+			            </label>
+
+			        </div>
+
+			    </div>
+
+			</div>
 
 
 		    <button id="btnSalvarRegistro">

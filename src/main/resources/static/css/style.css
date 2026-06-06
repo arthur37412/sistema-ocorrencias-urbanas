@@ -51,6 +51,46 @@ nav {
 	cursor: pointer;
 }
 
+/* botão desativado sem login*/
+.wrapper-registro{
+
+	position: relative;
+
+	display: inline-block;
+}
+
+.tooltip-login{
+
+	position: absolute;
+
+	    top: 120%;
+
+	    left: 50%;
+
+	    transform: translateX(-50%);
+
+	    background: #222;
+
+	    color: white;
+
+	    padding: 10px 15px;
+
+	    border-radius: 6px;
+
+	    font-size: 14px;
+
+	    display: none;
+
+	    white-space: nowrap;
+
+	    z-index: 9999;
+}
+
+.wrapper-registro:hover .tooltip-login{
+
+	display: block;
+}
+
 
 /* =========================
    POP-UP
@@ -336,7 +376,7 @@ body{
 }
 
 /* =========================
-   POP-UP REGISTRO
+   POP-UP REGISTRO/CRIAR
 ========================= */
 
 .popup-registro{
@@ -380,6 +420,24 @@ body{
     font-size: 18px;
 
     text-align: center;
+}
+
+/* botão fechar*/
+
+.fechar-popup{
+    position: absolute;
+    top: 8px;
+    right: 12px;
+
+    font-size: 24px;
+    font-weight: bold;
+
+    cursor: pointer;
+    color: #666;
+}
+
+.fechar-popup:hover{
+    color: #000;
 }
 
 
@@ -512,5 +570,9 @@ body{
 
 #camposPredio{
 
+    display: none;
+}
+
+#camposObra{
     display: none;
 }

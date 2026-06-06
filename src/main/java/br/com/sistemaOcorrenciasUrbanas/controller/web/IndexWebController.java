@@ -47,6 +47,9 @@ public class IndexWebController {
 		throw new RuntimeException("É necessário entrar em sua conta para criar um registro");
 		}
 	 registro.setIdCriador(usuario.getIdUsuario());
+	 if("Obra".equals(registro.getTipoRegistro())){
+	        registro.setIdResponsavel(usuario.getIdUsuario());
+	    }
 	 return registroService.saveRegistro(registro);
 	 }
 	 
