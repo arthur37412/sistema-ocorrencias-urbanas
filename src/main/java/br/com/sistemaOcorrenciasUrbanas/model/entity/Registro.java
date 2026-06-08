@@ -14,6 +14,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 
 @Entity
@@ -26,6 +27,7 @@ public class Registro {
 	private String descricao;
 	private String tipoRegistro;
 	private Integer idCriador;
+	private String nomeResponsavel;
 	@CreationTimestamp
 	private LocalDate dataRegistro;
 	private Double latitude;
@@ -49,7 +51,7 @@ public class Registro {
 	//construtor
 		public Registro() {}
 	
-	public Registro(int idRegistro, String titulo, String descricao, String tipoRegistro, Integer idCriador,
+	public Registro(int idRegistro, String titulo, String descricao, String tipoRegistro, Integer idCriador, String nomeResponsavel,
 			LocalDate dataRegistro, Double latitude, Double longitude, String tipoLocal, Integer idResponsavel, LocalDate dataInicio, LocalDate previsao, String status,
 			String trafegoV, String trafegoP, String funcionamento, Boolean ruidoExcessivo,
 			Boolean poeiraExcessiva, Boolean entulho) {
@@ -59,6 +61,7 @@ public class Registro {
 		this.descricao = descricao;
 		this.tipoRegistro = tipoRegistro;
 		this.idCriador = idCriador;
+		this.nomeResponsavel = nomeResponsavel;
 		this.dataRegistro = dataRegistro;
 		this.latitude = latitude;
 		this.longitude = longitude;
@@ -227,6 +230,14 @@ public class Registro {
 
 	public void setTipoLocal(String tipoLocal) {
 		this.tipoLocal = tipoLocal;
+	}
+
+	public String getNomeResponsavel() {
+		return nomeResponsavel;
+	}
+
+	public void setNomeResponsavel(String nomeResponsavel) {
+		this.nomeResponsavel = nomeResponsavel;
 	}
 	
 	

@@ -22,7 +22,70 @@
             Sistema de Ocorrências Urbanas
         </h1>
 		
-		<div class = "area-direita">
+<div class = "area-direita">
+			
+   <div id="containerFiltros">	
+				
+	     <button id="btnFiltros">☰ Filtros</button>
+
+	     <div id="painelFiltros">
+
+			
+	<div class="categoria">Tipo</div>
+	<div class="opcoesFiltro">
+	<div class="opcaoFiltro" data-tipo="Obra">Obras</div>
+    <div class="opcaoFiltro" data-tipo="Registro">Registros</div>
+	</div>
+
+		
+	<div class="categoria">Local</div>
+	<div class="opcoesFiltro">
+	<div class="opcaoFiltro" data-local="Via">Via</div>
+	<div class="opcaoFiltro" data-local="Prédio">Prédio</div>
+	</div>
+
+			 
+	<div class="categoria">Tráfego de veículos</div>
+	<div class="opcoesFiltro">
+	<div class="opcaoFiltro" data-trafegov="NaoImpede">Não afeta</div>
+	<div class="opcaoFiltro" data-trafegov="Dificulta">Dificulta</div>
+	<div class="opcaoFiltro" data-trafegov="Impede">Impede</div>
+    </div>
+
+			  
+	<div class="categoria">Tráfego de pedestres</div>
+    <div class="opcoesFiltro">
+	<div class="opcaoFiltro" data-trafegop="NaoImpede">Não afeta</div>
+    <div class="opcaoFiltro" data-trafegop="Dificulta">Dificulta</div>
+	<div class="opcaoFiltro" data-trafegop="Impede">Impede</div>
+	</div>
+
+			  
+	<div class="categoria">Funcionamento</div>
+	<div class="opcoesFiltro">
+	<div class="opcaoFiltro" data-funcionamento="Pleno">Pleno</div>
+	<div class="opcaoFiltro" data-funcionamento="Parcial">Parcial</div>
+	<div class="opcaoFiltro" data-funcionamento="Fechado">Fechado</div>
+   </div>
+
+			  
+	<div class="categoria">Status da obra</div>
+    <div class="opcoesFiltro">
+    <div class="opcaoFiltro" data-status="Planejado">Planejado</div>
+	<div class="opcaoFiltro" data-status="Em andamento">Em andamento</div>
+	<div class="opcaoFiltro" data-status="Em pausa">Em pausa</div>
+	<div class="opcaoFiltro" data-status="Concluído">Concluído</div>
+    </div>
+
+			  
+	<div class="categoria">Outros impactos</div>
+    <div class="opcoesFiltro">
+	<div class="opcaoFiltro" data-ruido="true">Ruído excessivo</div>
+	<div class="opcaoFiltro" data-poeira="true">Poeira excessiva</div>
+	<div class="opcaoFiltro" data-entulho="true">Entulho</div>
+	</div>
+   </div>
+</div>
 		
 		<div th:if="${usuario == null or usuario.tipoUsuario == 'Usuario'}" class="wrapper-registro">
 		<button id = "btnRegistrar" th:disabled="${usuario == null}">
@@ -32,8 +95,8 @@
 		        Faça login para fazer um registro
 		    </div>
 		</div>
-		
-		
+  
+		<!--botão-->
 		<div th:if="${usuario != null and (usuario.tipoUsuario == 'Gestor' or usuario.tipoUsuario == 'Administrador') }">
 		    <button id="btnCriarObra">
 		        Criar Obra
@@ -86,9 +149,12 @@
 		<div id="map"></div>
 		
 		
-		<!-- popup registrar -->
+<!---------------------------------------------- popup registrar começo--------------------------------------------------------------------------->
+<form id="formRegistro">
 		<div id="popupRegistro" class="popup-registro">
 
+	    <div id="barraPopupRegistro" class="barra-popup">
+			
 		    <h3>
 		        Novo Registro
 		    </h3>
@@ -96,10 +162,11 @@
 			<span id="fecharPopup" class="fechar-popup">
 			       ×
 			   </span>
+	     </div>
 
-		    <input type="text" id="tituloRegistro" placeholder="Resumo">
+		    <input type="text" id="tituloRegistro" placeholder="Resumo" required>
 
-		    <textarea id="descricaoRegistro" placeholder="Descrição"></textarea>
+		    <textarea id="descricaoRegistro" placeholder="Descrição" required></textarea>
 
 		    <div class="grupo-campos">
 		        <label>
@@ -107,13 +174,13 @@
 		        </label>
 		        <div class="opcoes">
 		            <label>
-		            <input type="radio" name="tipoRegistro" value="IrregularidadeVia">
+		            <input type="radio" name="tipoRegistro" value="IrregularidadeVia" required>
 		             Irregularidade em via
 		            </label>
 
 		            <label>
 		            <input type="radio" name="tipoRegistro" value="IrregularidadePredio">
-		             Irregularidde em prédio
+		             Irregularidade em prédio
 		            </label>
 
 		        </div>
@@ -134,7 +201,7 @@
 		            <div class="opcoes">
 
 		                <label>
-		                 <input type="radio" name="trafegoV" value="NaoImpede">
+		                 <input type="radio" name="trafegoV" value="NaoImpede" required>
 		                  Não impede
 		                </label>
 
@@ -161,7 +228,7 @@
 		            <div class="opcoes">
 
 		                <label>
-		                <input type="radio" name="trafegoP" value="NaoImpede">
+		                <input type="radio" name="trafegoP" value="NaoImpede" required>
 		                 Não impede
 		                </label>
 
@@ -193,7 +260,7 @@
 		            <div class="opcoes">
 
 		                <label>
-		                <input type="radio" name="funcionamento" value="Pleno">
+		                <input type="radio" name="funcionamento" value="Pleno" required>
 		                 Pleno funcionamento
 		                </label>
 
@@ -251,7 +318,7 @@
 
 			        <label>Data de início</label>
 
-			        <input type="date" id="dataInicio">
+			        <input type="date" id="dataInicio" required>
 
 			    </div>
 
@@ -259,7 +326,7 @@
 
 			        <label>Previsão</label>
 
-			        <input type="date" id="previsao">
+			        <input type="date" id="previsao" required>
 
 			    </div>
 
@@ -270,7 +337,7 @@
 			        <div class="opcoes">
 
 			            <label>
-			                <input type="radio" name="status" value="Planejado">
+			                <input type="radio" name="status" value="Planejado" required>
 			                Planejado
 			            </label>
 
@@ -296,12 +363,117 @@
 			</div>
 
 
-		    <button id="btnSalvarRegistro">
+		    <button id="btnSalvarRegistro" type="submit">
 		     Registrar
 		    </button>
-
 		</div>
+</form>
+<!---------------------------------------------- popup registrar fim/ popup visualizar começo--------------------------------------------------------------------------->
 		
+<div id="popupExibir" class="popup-exibir">
+
+	<div id="barraPopupExibir" class="barra-popup">
+
+	    <h3 id="tituloExibir">
+	        Título
+	    </h3>
+
+	    <span id="fecharExibir" class="fechar-popup">
+	        ×
+	    </span>
+
+	</div>
+	<p>
+	        <b>Descrição:</b>
+	        <span id="descricaoExibir"></span>
+	    </p>
+
+	    <p>
+	        <b>Tipo:</b>
+	        <span id="tipoExibir"></span>
+	    </p>
+
+	    <p>
+	        <b>Local:</b>
+	        <span id="localExibir"></span>
+	    </p>
+
+	    <!-- Via -->
+	    <div id="exibirVia">
+
+	        <p>
+	            <b>Tráfego de veículos:</b>
+	            <span id="trafegoVExibir"></span>
+	        </p>
+
+	        <p>
+	            <b>Tráfego de pedestres:</b>
+	            <span id="trafegoPExibir"></span>
+	        </p>
+
+	    </div>
+
+	    <!-- Predio -->
+	    <div id="exibirPredio">
+
+	        <p>
+	            <b>Funcionamento:</b>
+	            <span id="funcionamentoExibir"></span>
+	        </p>
+
+	    </div>
+
+	    <h4>
+	        Outros
+	    </h4>
+
+	    <p>
+	        <b>Ruído excessivo:</b>
+	        <span id="ruidoExibir"></span>
+	    </p>
+
+	    <p>
+	        <b>Poeira excessiva:</b>
+	        <span id="poeiraExibir"></span>
+	    </p>
+
+	    <p>
+	        <b>Entulho:</b>
+	        <span id="entulhoExibir"></span>
+	    </p>
+
+	    <div id="exibirObra">
+
+	        <p>
+	            <b>Responsável:</b>
+	            <span id="responsavelExibir"></span>
+	        </p>
+
+	        <p>
+	            <b>Status:</b>
+	            <span id="statusExibir"></span>
+	        </p>
+
+	        <p>
+	            <b>Descrição:</b>
+	            <span id="descricaoExibir"></span>
+	        </p>
+
+	        <p>
+	            <b>Data de início:</b>
+	            <span id="dataInicioExibir"></span>
+	        </p>
+
+	        <p>
+	            <b>Previsão:</b>
+	            <span id="previsaoExibir"></span>
+	        </p>
+
+	    </div>
+
+	</div>
+<!---------------------------------------------- popup visualizar fim--------------------------------------------------------------------------->
+
 		<!--rodape-->
 		<footer>
 		  Footer

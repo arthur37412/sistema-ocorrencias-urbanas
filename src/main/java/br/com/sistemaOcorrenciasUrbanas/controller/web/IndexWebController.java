@@ -49,6 +49,7 @@ public class IndexWebController {
 	 registro.setIdCriador(usuario.getIdUsuario());
 	 if("Obra".equals(registro.getTipoRegistro())){
 	        registro.setIdResponsavel(usuario.getIdUsuario());
+	        registro.setNomeResponsavel(usuario.getNomeUsuario());
 	    }
 	 return registroService.saveRegistro(registro);
 	 }
@@ -95,6 +96,16 @@ public class IndexWebController {
 	    	redirectAttributes.addFlashAttribute("erroCadastro", "Este email já foi cadastrado.");
 	    	return "redirect:/cadastro";
 	    	    }
+	    	
+	    	// Adapta o objeto do html para o bd
+	    	String tipo = usuario.getTipoUsuario();
+	        if(tipo.equals("Cidadao")){
+	            usuario.setTipoUsuario("Usuario");
+	        }
+	        else if(tipo.equals("Prestador de Servico")){
+	            usuario.setTipoUsuario("Gestor");
+	        }
+	        
 	        usuarioService.saveUsuario(usuario);
 	        redirectAttributes.addFlashAttribute("sucesso", "Cadastro realizado com sucesso!");
 	        return "redirect:/login";
@@ -102,5 +113,6 @@ public class IndexWebController {
 	    
 	    
 	    
+	   
 	    
 }

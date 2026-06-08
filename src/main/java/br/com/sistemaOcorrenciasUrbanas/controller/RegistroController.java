@@ -77,6 +77,7 @@ public class RegistroController {
 		    registroUpdate.setLatitude(registro.getLatitude());
 		    registroUpdate.setLongitude(registro.getLongitude());
 		    registroUpdate.setTipoLocal(registro.getTipoLocal());
+		    registroUpdate.setNomeResponsavel(registro.getNomeResponsavel());
 		    return registroService.saveRegistro(registroUpdate);
 		}
 	

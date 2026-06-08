@@ -391,7 +391,7 @@ body{
 
     background: white;
 
-    padding: 16px;
+    padding: 0 16px 16px 16px;
 
     border-radius: 12px;
 
@@ -575,4 +575,189 @@ body{
 
 #camposObra{
     display: none;
+}
+
+/* =========================
+   POP-UP EXIBIR
+========================= */
+
+.popup-exibir{
+
+    position: fixed;
+
+    top: 50%;
+
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    background: white;
+
+    padding: 0 16px 16px 16px;
+
+    border-radius: 12px;
+
+    z-index: 99999;
+
+    display: none;
+
+    width: 430px;
+
+    max-height: 85vh;
+
+    overflow-y: auto;
+
+    box-shadow: 0 0 15px rgba(0,0,0,0.15);
+}
+
+/* título */
+
+.popup-exibir h3{
+
+    margin-top: 0;
+
+    margin-bottom: 14px;
+
+    font-size: 18px;
+
+    text-align: center;
+}
+
+/* textos */
+
+.popup-exibir p{
+
+    margin: 8px 0;
+
+    font-size: 14px;
+
+    line-height: 1.4;
+}
+
+/* subtítulos */
+
+.popup-exibir h4{
+
+    margin-top: 16px;
+
+    margin-bottom: 8px;
+
+    font-size: 15px;
+}
+
+/* separação */
+
+.popup-exibir div{
+
+    margin-bottom: 10px;
+}
+
+.barra-popup{
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    cursor: move;
+
+    margin-bottom: 12px;
+	
+	padding-top: 16px;
+}
+
+.barra-popup h3{
+    margin: 0;
+}
+
+/* =========================
+   FILTROS
+========================= */
+
+#btnFiltros{
+    border: none;
+    border-radius: 12px;
+    padding: 10px 15px;
+    cursor: pointer;
+
+    background: white;
+
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+
+    font-size: 16px;
+}
+
+#containerFiltros{
+    position: relative;
+    display: inline-block;
+}
+
+#painelFiltros{
+
+	display: none;
+
+	    position: absolute;
+
+	    top: 100%;
+	    left: 0;
+
+	    margin-top: 5px;
+
+	    width: 260px;
+
+	    background: white;
+
+	    border-radius: 12px;
+
+	    padding: 10px;
+
+	    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+
+	    z-index: 9999;
+
+	    max-height: 70vh;
+
+	    overflow-y: auto;
+}
+
+.categoria{
+
+    font-weight: bold;
+
+    padding: 8px;
+
+    cursor: pointer;
+
+    border-bottom: 1px solid #ddd;
+}
+
+.opcoesFiltro{
+
+    display: none;
+
+    padding: 5px;
+}
+
+.opcaoFiltro{
+
+    padding: 6px;
+
+    margin: 4px 0;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+}
+
+.opcaoFiltro:hover{
+
+    background: #ececec;
+}
+
+.opcaoFiltro.ativo{
+
+    background: rgb(128, 128, 128);
+
+    color: white;
 }
