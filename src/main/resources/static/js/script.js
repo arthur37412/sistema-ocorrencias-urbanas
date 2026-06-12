@@ -15,3 +15,17 @@ this.value = this.value.replace(/[^A-Za-zÀ-ÿ\s]/g, '');
 });
 
 }
+if(btnEditarPerfil) {
+document.getElementById("btnEditarPerfil").addEventListener("click", function(){
+
+document.getElementById("nomeTexto").style.display = "none";
+document.getElementById("emailTexto").style.display = "none";
+
+document.getElementById("nomeInput").style.display = "inline-block";
+document.getElementById("emailInput").style.display = "inline-block";
+
+document.getElementById("btnSalvarPerfil").style.display = "block";
+this.style.display = "none";
+});
+}
+//A parte de exibir no mapa está no mapa.js

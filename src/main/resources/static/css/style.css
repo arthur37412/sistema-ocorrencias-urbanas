@@ -1,36 +1,78 @@
+:root{
+    --cor-primaria: #2563eb;
+    --cor-primaria-hover: #1d4ed8;
+    --cor-fundo: #eef2f7;
+    --cor-card: #ffffff;
+    --cor-texto: #1f2937;
+    --cor-borda: #cbd5e1;
+    --sombra-card: 0 3px 12px rgba(15, 23, 42, 0.12);
+}
+
 /* tamanho do mapa */
 #map {
 	  height: calc(100vh - 90px);
 	/*width: 360px;*/
 }
 	 
-nav {
+/* =========================
+    NAVBAR
+========================= */
 
-	display: flex;
+nav{
 
-	justify-content: space-between;
+    display: flex;
 
-	align-items: center;
+    justify-content: space-between;
 
-	padding: 10px 20px;
+    align-items: center;
+	
+	height: 78px;
+	
+	padding: 0 26px 0 0;
+	
+    background: rgb(255, 255, 255);
 
-	background-color: #dee2e6;
+    border-bottom: 1px solid rgb(0, 0, 0);
+
+    box-shadow: var(--sombra-card);
+
+    z-index: 1000;
 }
 
+.logo-navbar{
+
+    display: flex;
+
+    align-items: center;
+	
+	height: 100%;
+}
+
+.logo-navbar img{
+
+    height: 80px;
+
+    width: auto;
+
+    display: block;
+	
+	object-fit: contain;
+}
 
 /* =========================
    ÁREA DIREITA NAVBAR
 ========================= */
 
+
 .area-direita{
 
-	display: flex;
+    display: flex;
 
-	align-items: center;
+    align-items: center;
 
-	gap: 15px;
+    gap: 12px;
 
-	margin-right: 20px;
+    margin-right: 10px;
 }
 
 
@@ -38,59 +80,131 @@ nav {
    BOTÃO CRIAR
 ========================= */
 
-#btnRegistrar{
+#btnRegistrar,
+#btnCriarObra{
 
-	padding: 8px 14px;
+    padding: 10px 18px;
 
-	border: none;
+    border: none;
 
-	background-color: #0d6efd;
+    border-radius: 10px;
 
-	color: white;
+    background: rgb(0, 128, 255);
 
-	cursor: pointer;
+    color: white;
+
+    font-weight: 500;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+#btnRegistrar:hover,
+#btnCriarObra:hover{
+
+    background: rgb(0, 128, 192);
+}
+
+#btnFiltros{
+
+    padding: 10px 18px;
+
+    border-radius: 10px;
+
+    border: 1px solid #cbd5e1;
+
+    background: #ffffff;
+
+    color: #1f2937;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+#btnFiltros:hover{
+
+    background: #ccfbf1;
+
+    border-color: #0f766e;
 }
 
 /* botão desativado sem login*/
 .wrapper-registro{
 
-	position: relative;
+    position: relative;
 
-	display: inline-block;
+    display: inline-block;
+}
+
+#btnRegistrar:disabled{
+
+    background: rgb(0, 128, 192);
+
+    cursor: not-allowed;
+
+    opacity: 0.85;
 }
 
 .tooltip-login{
 
-	position: absolute;
+    position: absolute;
 
-	    top: 120%;
+    top: 120%;
 
-	    left: 50%;
+    left: 50%;
 
-	    transform: translateX(-50%);
+    transform: translateX(-50%);
 
-	    background: #222;
+    background: #1f2937;
 
-	    color: white;
+    color: white;
 
-	    padding: 10px 15px;
+    padding: 8px 12px;
 
-	    border-radius: 6px;
+    border-radius: 8px;
 
-	    font-size: 14px;
+    font-size: 13px;
 
-	    display: none;
+    box-shadow: var(--sombra-card);
 
-	    white-space: nowrap;
+    white-space: nowrap;
 
-	    z-index: 9999;
+    display: none;
+
+    z-index: 9999;
 }
 
 .wrapper-registro:hover .tooltip-login{
 
-	display: block;
+    display: block;
 }
 
+.botao-login{
+
+	padding: 10px 18px;
+
+	    border: none;
+
+	    border-radius: 10px;
+
+	    background: rgb(0, 128, 255);
+
+	    color: rgb(0, 128, 255);
+
+	    font-weight: 500;
+
+	    cursor: pointer;
+
+	    transition: 0.2s;
+	
+}
+
+.botao-login:hover{
+
+    background: rgb(0, 128, 192);
+}
 
 /* =========================
    POP-UP
@@ -671,6 +785,183 @@ body{
     margin: 0;
 }
 
+#btnEditarRegistro{
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+	margin-right: 15px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    position: relative;
+    top: -1px;
+}
+
+#btnEditarRegistro img{
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+    display: block;
+}
+
+#btnEditarRegistro:hover{
+    opacity: 0.7;
+}
+
+.acoesPopup{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+/*campos de assumir*/
+#camposAssumirObra{
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #ddd;
+}
+
+.barraAssumir{
+
+    display: flex;
+	
+    justify-content: space-between;
+	
+    align-items: center;
+	
+    margin-bottom: 12px;
+	
+}
+
+.barraAssumir h4{
+
+    margin: 0;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    color: #333;
+}
+
+.linha-campo{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.linha-campo input[type="date"]{
+  width: 180px;
+  margin-bottom: 0;
+}
+
+.fechar-assumir{
+
+    font-size: 24px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    color: #666;
+}
+
+.fechar-assumir:hover{
+    color: #000;
+}
+
+#camposAssumirObra input[type="date"]{
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 12px;
+  box-sizing: border-box;
+  border: 1px solid #d6d6d6;
+  border-radius: 8px;
+  outline: none;
+  font-size: 14px;
+}
+
+#camposAssumirObra input[type="date"]:focus{
+  border-color: #b8b8b8;
+}
+
+#camposAssumirObra .grupo-campos{
+  margin-bottom: 12px;
+}
+
+#camposAssumirObra .grupo-campos label{
+  font-size: 14px;
+}
+
+#camposAssumirObra .opcoes{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  margin-top: 6px;
+}
+
+#camposAssumirObra .opcoes label{
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin: 0;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+#camposAssumirObra .opcoes input{
+  margin: 0;
+}
+
+#camposAssumirObra button{
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background: #0d6efd;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 8px;
+}
+
+#camposAssumirObra button:hover{
+  background: #0b5ed7;
+}
+
+.btn-acao-popup{
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+
+    font-size: 22px;
+    font-weight: bold;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    position: relative;
+    top: -2px;
+}
+
+#btnConcluirRegistro{
+    color: #198754;
+}
+
+#btnReabrirRegistro{
+    color: #fd7e14;
+}
+
+.btn-acao-popup:hover{
+    opacity: 0.7;
+}
+
 /* =========================
    FILTROS
 ========================= */
@@ -760,4 +1051,232 @@ body{
     background: rgb(128, 128, 128);
 
     color: white;
+}
+
+/* =========================
+   PÁGINA PERFIL
+========================= */
+
+.pagina-perfil{
+    max-width: 1000px;
+    margin: 35px auto;
+    padding: 0 20px;
+}
+
+.card-perfil,
+.card-ocorrencias{
+    background: white;
+    border-radius: 14px;
+    padding: 24px;
+    margin-bottom: 25px;
+    box-shadow: 0 0 14px rgba(0,0,0,0.12);
+}
+
+.topo-card-perfil{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.topo-card-perfil h2,
+.card-ocorrencias h2{
+    margin: 0;
+    font-size: 24px;
+}
+
+.btn-editar-perfil{
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.btn-editar-perfil img{
+    width: 22px;
+    height: 22px;
+    display: block;
+}
+
+.btn-editar-perfil:hover{
+    opacity: 0.7;
+}
+
+.dados-perfil p{
+    font-size: 16px;
+    margin: 10px 0;
+}
+
+.sem-ocorrencias{
+    padding: 18px;
+    border-radius: 10px;
+    background: #f1f3f5;
+    color: #555;
+    text-align: center;
+}
+
+.item-ocorrencia{
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 18px;
+    margin-top: 15px;
+    background: #fafafa;
+}
+
+.linha-ocorrencia{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+
+.linha-ocorrencia h3{
+    margin: 0;
+    font-size: 18px;
+}
+
+.tag-status{
+    padding: 5px 12px;
+    border-radius: 20px;
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.status-planejado{
+    background: #0d6efd;
+}
+
+.status-andamento{
+    background: #ffc107;
+    color: #212529;
+}
+
+.status-pausa{
+    background: #fd7e14;
+}
+
+.status-concluido{
+    background: #198754;
+}
+
+.descricao-ocorrencia{
+    margin: 12px 0;
+    color: #444;
+}
+
+.info-ocorrencia{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    font-size: 14px;
+    color: #333;
+}
+
+.btn-ver-mapa{
+    display: inline-block;
+    margin-top: 14px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: #0d6efd;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.btn-ver-mapa:hover{
+    background: #0b5ed7;
+    color: white;
+}
+
+.btn-mapa{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 42px;
+    height: 42px;
+
+    border-radius: 8px;
+
+    transition: 0.2s;
+}
+
+.btn-mapa:hover{
+    background: rgba(0,0,0,0.08);
+}
+
+.btn-mapa img{
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+}
+
+.area-usuario{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.usuario-logado{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.usuario-logado span{
+    font-size: 16px;
+}
+
+.link-sair{
+    color: #0d6efd;
+    text-decoration: none;
+}
+
+.link-sair:hover{
+    text-decoration: underline;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer{
+
+    background: #ffffff;
+
+    border-top: 1px solid #cbd5e1;
+
+    padding: 20px;
+
+    text-align: center;
+
+    margin-top: 0;
+}
+
+.footer-titulo{
+
+    font-size: 20px;
+
+    font-weight: bold;
+
+    color: #1f2937;
+
+    margin-bottom: 8px;
+}
+
+.footer-descricao{
+
+    color: #6b7280;
+
+    margin-bottom: 12px;
+}
+
+.copyright{
+
+    color: #9ca3af;
+
+    font-size: 14px;
 }

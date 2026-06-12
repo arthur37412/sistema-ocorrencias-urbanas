@@ -11,6 +11,7 @@
 	<link rel="stylesheet" href="/css/style.css">
 	<!--leaflet-->
 	<link rel="stylesheet" href="/css/leaflet.css">
+	
 	     
 </head>
 
@@ -18,9 +19,9 @@
 
 		<header class="header">
       <nav>
-        <h1 class="text-left">
-            Sistema de Ocorrências Urbanas
-        </h1>
+		<a th:href="@{/}" class="logo-navbar">
+		    <img src="/images/logoi.png" alt="InfraMap">
+		</a>
 		
 <div class = "area-direita">
 			
@@ -105,9 +106,9 @@
 		
 		
 		<div th:if="${usuario == null}">
-		    <a th:href="@{/login}" class="botao-login">
-		        Entrar
-		    </a>
+			<button class="botao-nav"th:onclick="|window.location.href='@{/login}'|">
+			    Entrar
+			</button>
 		</div>
 
 		
@@ -127,12 +128,8 @@
 
 		
 		<div class="menu-dropdown">
-		        <a href="#">
+		        <a th:href="@{/perfil}">
 		            Perfil
-		        </a>
-				
-		        <a href="#">
-		            Minhas Ocorrências
 		        </a>
 				
 		        <a th:href="@{/sair}">
@@ -317,7 +314,6 @@
 			    <div class="grupo-campos">
 
 			        <label>Data de início</label>
-
 			        <input type="date" id="dataInicio" required>
 
 			    </div>
@@ -325,9 +321,7 @@
 			    <div class="grupo-campos">
 
 			        <label>Previsão</label>
-
 			        <input type="date" id="previsao" required>
-
 			    </div>
 
 			    <div class="grupo-campos">
@@ -378,9 +372,26 @@
 	        Título
 	    </h3>
 
+		
+		<div class="acoesPopup">
+			
+	    <button id="btnConcluirRegistro" type="button" class="btn-acao-popup" style="display:none;">
+			 ✓
+		</button>
+
+	     <button id="btnReabrirRegistro" type="button" class="btn-acao-popup" style="display:none;">
+              ↺
+		 </button>
+
+		<button id="btnEditarRegistro">
+		<img src="/images/escrever.png">
+		</button>
+		
 	    <span id="fecharExibir" class="fechar-popup">
 	        ×
 	    </span>
+		
+		</div>		
 
 	</div>
 	<p>
@@ -392,6 +403,11 @@
 	        <b>Tipo:</b>
 	        <span id="tipoExibir"></span>
 	    </p>
+		
+		<p>
+			<b>Status:</b>
+			<span id="statusExibir"></span>
+	    </p>	
 
 	    <p>
 	        <b>Local:</b>
@@ -441,22 +457,16 @@
 	        <b>Entulho:</b>
 	        <span id="entulhoExibir"></span>
 	    </p>
+		
+		<button id="btnAssumirObra" type="button">
+			    Assumir obra
+		</button>
 
 	    <div id="exibirObra">
 
 	        <p>
 	            <b>Responsável:</b>
 	            <span id="responsavelExibir"></span>
-	        </p>
-
-	        <p>
-	            <b>Status:</b>
-	            <span id="statusExibir"></span>
-	        </p>
-
-	        <p>
-	            <b>Descrição:</b>
-	            <span id="descricaoExibir"></span>
 	        </p>
 
 	        <p>
@@ -468,25 +478,96 @@
 	            <b>Previsão:</b>
 	            <span id="previsaoExibir"></span>
 	        </p>
-
+			
 	    </div>
+		
+		<div id="camposAssumirObra" style="display:none;">
+
+			<div class="barraAssumir">
+
+			    <h4>Detalhes</h4>
+
+			    <span id="fecharAssumirObra" class="fechar-assumir">
+			        ×
+			    </span>
+
+			</div>
+		  <div class="grupo-campos linha-campo">
+		    <label>Data de início</label>
+			<input type="date" id="dataInicioAssumir" required>
+		  </div>
+
+		  <div class="grupo-campos linha-campo">
+		    <label>Previsão</label>
+		    <input type="date" id="previsaoAssumir" required>
+		  </div>
+
+		  <div class="grupo-campos">
+		    <label>Status</label>
+
+		    <div class="opcoes">
+		      <label>
+		        <input type="radio" name="statusAssumir" value="Planejado" required>
+		        Planejado
+		      </label>
+
+		      <label>
+		        <input type="radio" name="statusAssumir" value="Em andamento">
+		        Em andamento
+		      </label>
+
+		      <label>
+		        <input type="radio" name="statusAssumir" value="Em pausa">
+		        Em pausa
+		      </label>
+
+		      <label>
+		        <input type="radio" name="statusAssumir" value="Concluído">
+		        Concluído
+		      </label>
+		    </div>
+		  </div>
+
+		  <button id="btnConfirmarAssumir" type="button">
+		    Confirmar
+		  </button>
+
+		</div>
 
 	</div>
 <!---------------------------------------------- popup visualizar fim--------------------------------------------------------------------------->
 
 		<!--rodape-->
-		<footer>
-		  Footer
-	    </footer>
+		<footer class="footer">
+
+		    <p class="footer-titulo">
+		        InfraMap
+		    </p>
+
+		    <p class="footer-descricao">
+		        Sistema de Monitoramento de Obras e Ocorrências Urbanas
+		    </p>
+
+		    <p class="copyright">
+		        © 2026 InfraMap. Todos os direitos reservados.
+		    </p>
+
+		</footer>
 		
 		<div id="popupCriar" class="popup">
 		    Selecione o local afetado no mapa.
 		</div>
 		
+		<input type="hidden" id="tipoUsuarioLogado" th:value="${usuario != null ? usuario.tipoUsuario : ''}">
+		<input type="hidden" id="idUsuarioLogado" th:value="${usuario != null ? usuario.idUsuario : ''}">
+		
+		<!--Bibliotecas-->
+		<script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
+		
 	     <!--javascript-->
 		 <script src="/js/leaflet.js"></script>
 		 <script src="/js/mapa.js"></script>
-		 <script src="/js/script.js"></script>
+		 <!--<script src="/js/script.js"></script>-->
 		 
 		
 </body>

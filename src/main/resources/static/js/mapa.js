@@ -4,10 +4,31 @@ var bounds = [[-23.60, -46.65], [-23.35, -46.45]]; //coordenadas de limite de gu
 let todosRegistros = [];
 let marcadores = []; //para o filtro
 
+let registroSelecionado = null;// armazena o registro selecionado, para alterações e assumir
+let modoEdicao = false;
+
+let geojsonGuarulhos = null;
+
+const tipoUsuarioLogado = document.getElementById("tipoUsuarioLogado")?.value.trim(); // puxa o usuario do backend
+const idUsuarioLogado = document.getElementById("idUsuarioLogado")?.value;
+
+
 fetch("/api/registro").then(response => response.json()).then(registros => {
 	
 todosRegistros = registros; 
 desenharRegistros(todosRegistros);//para o filtro
+
+const params = new URLSearchParams(window.location.search);
+const idRegistroUrl = params.get("registro");
+
+//abre o registro selecinado após abrir atraves da pagina perfil
+if(idRegistroUrl){
+   const registroEncontrado = todosRegistros.find(r => r.idRegistro == idRegistroUrl);
+   if(registroEncontrado){
+      map.setView([registroEncontrado.latitude, registroEncontrado.longitude], 16);
+      abrirpopupExibir(registroEncontrado);
+    }
+}
 
 /*registros.forEach(registro => {
         const marcador = L.marker([registro.latitude, registro.longitude])
@@ -31,6 +52,30 @@ L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{
     maxZoom: 16,
     attribution: '&copy; OpenStreetMap & CartoDB'
 }).addTo(map);
+
+let camadaGuarulhos = null;
+
+fetch("/geo/guarulhos.json").then(response => response.json()).then(geojson => {
+geojsonGuarulhos = geojson;
+	
+const mascara = {type: "Feature", geometry: {type: "Polygon", coordinates: [[[-180, -90], [180, -90], [180, 90], [-180, 90], [-180, -90]], geojson.features[0].geometry.coordinates[0]]}};
+
+L.geoJSON(mascara, {style: {fillColor: "#000", fillOpacity: 0.15, stroke: false}}).addTo(map);
+
+camadaGuarulhos = L.geoJSON(geojson, {style: {opacity: 0, fillOpacity: 0}
+}).addTo(map);
+const boundsGuarulhos = camadaGuarulhos.getBounds();
+
+map.fitBounds(boundsGuarulhos);
+map.setMaxBounds(boundsGuarulhos.pad(0.3));
+
+map.on("drag", function(){
+    map.panInsideBounds(boundsGuarulhos.pad(0.3), {
+        animate: false
+    });
+});
+}).catch(error => console.error("Erro ao carregar GeoJSON:", error));
+
 
 //---------------------------------------------Botão Criar Registro--------------------------------------------------------------------------
 
@@ -87,10 +132,18 @@ btnCriarObra.addEventListener("click", function () {
 
 //oq ocorre após selecionar um local no mapa
 map.on('click', function (e) {
-    if (!tipoCriacao) return;
-    latitudeSelecionada = e.latlng.lat;
-	longitudeSelecionada = e.latlng.lng;
-    document.getElementById("popupRegistro").style.display = "block";
+if(!tipoCriacao) return;
+if(geojsonGuarulhos) {
+    const ponto = turf.point([e.latlng.lng, e.latlng.lat]);
+    const dentro = turf.booleanPointInPolygon(ponto,geojsonGuarulhos.features[0]);
+    if(!dentro) {
+	   document.getElementById("popupCriar").innerHTML = "Selecione um local dentro de Guarulhos.";
+       return;
+       }
+   }
+latitudeSelecionada = e.latlng.lat;
+longitudeSelecionada = e.latlng.lng;
+document.getElementById("popupRegistro").style.display = "block";
 });
 
 
@@ -124,7 +177,7 @@ const status = document.querySelector('input[name="status"]:checked')?.value || 
 // Objeto a ser enviado ao banco de dados
 const registro = {
 titulo: titulo,
-idRegistro: "0",
+idRegistro: modoEdicao ? registroSelecionado.idRegistro : "0",
 descricao: document.getElementById("descricaoRegistro")?.value || "",
 tipoRegistro: tipoCriacao,
 tipoLocal: tipoLocal,
@@ -138,33 +191,50 @@ dataInicio: dataInicio,
 previsao: previsao,
 ruidoExcessivo: ruidoExcessivo,
 poeiraExcessiva: poeiraExcessiva,
-entulho: entulho
+entulho: entulho,
+dataInicio: tipoCriacao == "Obra" ? dataInicio : null,
+previsao: tipoCriacao == "Obra" ? previsao : null
 };
 
 
 // Envia ao banco de dados
-fetch("/api/registros", {
-method: "POST",
-headers: {"Content-Type": "application/json"},
-body: JSON.stringify(registro)})
-.then(response => response.json())
-.then(data => {L.marker([data.latitude, data.longitude])
+const url = modoEdicao ? "/api/registros/" + registroSelecionado.idRegistro : "/api/registros";
+const metodo = modoEdicao ? "PUT" : "POST";
+
+fetch(url, {method: metodo, headers: {"Content-Type": "application/json"}, body: JSON.stringify(registro)}).then(response => response.json()).then(data => {
+if(modoEdicao){
+   const index = todosRegistros.findIndex(r => r.idRegistro == data.idRegistro);
+
+if(index !== -1){
+   todosRegistros[index] = data;
+   }
+aplicarFiltros();
+abrirpopupExibir(data);
+
+alert("Registro atualizado com sucesso.");
+    }
+ else{
+todosRegistros.push(data);
+L.marker([data.latitude, data.longitude])
 .addTo(map)
 .on("click", function(){
-abrirpopupExibir(data);
-    });
-
-});
-
+ abrirpopupExibir(data);
+        });
+    }
+	
 
 // fecha o pop-up ao enviar
 tipoCriacao = null;
 document.getElementById("popupRegistro").style.display = "none";
 document.getElementById("popupCriar").style.display = "none";
 
+document.querySelector("#barraPopupRegistro h3").innerText = "Novo Registro";
+document.getElementById("btnSalvarRegistro").innerText = "Registrar";
+
 map.getContainer().style.cursor = "";
 
 limparCampos();
+});
 });
 
 //---------------------------------------------Botão Criar Obra--------------------------------------------------------------------------
@@ -197,12 +267,16 @@ if (
 function abrirpopupExibir(registro){
 
 	
-    // garante estado limpo dos blocos
+registroSelecionado = registro;
+	
+document.getElementById("camposAssumirObra").style.display = "none";
+
+ // esconde os campos opcionis
 document.getElementById("exibirObra").style.display = "none";
 document.getElementById("exibirVia").style.display = "none";
 document.getElementById("exibirPredio").style.display = "none";
 
-    // base (sempre exibido)
+
 document.getElementById("tituloExibir").innerText = registro.titulo;
 document.getElementById("responsavelExibir").innerText = registro.nomeResponsavel;
 
@@ -214,50 +288,130 @@ document.getElementById("previsaoExibir").innerText = registro.previsao;
 document.getElementById("tipoExibir").innerText = registro.tipoRegistro;
 document.getElementById("localExibir").innerText = registro.tipoLocal;
 
-    // Via
-    if(registro.tipoLocal == "Via"){
-
+// Via
+if(registro.tipoLocal == "Via"){
 document.getElementById("exibirVia").style.display = "block";
 document.getElementById("trafegoVExibir").innerText =formatarCampos(registro.trafegoV);
 document.getElementById("trafegoPExibir").innerText =formatarCampos(registro.trafegoP);
     }
-    // Prédio
+// Prédio
 else{
 document.getElementById("exibirPredio").style.display = "block";
 document.getElementById("funcionamentoExibir").innerText = registro.funcionamento;
     }
-    // Impactos
+// Impactos
 document.getElementById("ruidoExibir").innerText = registro.ruidoExcessivo ? "Sim" : "Não";
 
 document.getElementById("poeiraExibir").innerText = registro.poeiraExcessiva ? "Sim" : "Não";
 
 document.getElementById("entulhoExibir").innerText = registro.entulho ? "Sim" : "Não";
 
-    // Obra
-    if(registro.tipoRegistro == "Obra"){
-
+// Obra
+if(registro.tipoRegistro == "Obra"){
 document.getElementById("exibirObra").style.display = "block";
-
 document.getElementById("statusExibir").innerText = registro.status;
-
 document.getElementById("dataInicioExibir").innerText = registro.dataInicio;
-
 document.getElementById("previsaoExibir").innerText = registro.previsao;
-
 document.getElementById("responsavelExibir").innerText = registro.nomeResponsavel;
     }
 else{
-    document.getElementById("exibirObra").style.display = "none";
-    }
-    document.getElementById("popupExibir").style.display = "block";
+document.getElementById("exibirObra").style.display = "none";
 }
+document.getElementById("popupExibir").style.display = "block";
+
+
+// define qnd btnAssumir aparece
+const btnAssumir = document.getElementById("btnAssumirObra");
+if(registro.tipoRegistro == "Registro" && tipoUsuarioLogado == "Gestor"){
+    btnAssumir.style.display = "block";
+}
+else{
+    btnAssumir.style.display = "none";
+}
+
+//qnd botão alterar aparece
+const btnEditar = document.getElementById("btnEditarRegistro");
+if ((registro.tipoRegistro == "Registro" && !registro.idResponsavel && tipoUsuarioLogado == "Usuario") || (registro.tipoRegistro == "Obra" && tipoUsuarioLogado == "Gestor" && String(registro.idResponsavel) == String(idUsuarioLogado)) || tipoUsuarioLogado == "Administrador") {
+     btnEditar.style.display = "block";
+} else {
+    btnEditar.style.display = "none";
+}
+
+const btnConcluir = document.getElementById("btnConcluirRegistro");
+const btnReabrir = document.getElementById("btnReabrirRegistro");
+
+const podeConcluirRegistro = registro.tipoRegistro == "Registro" && tipoUsuarioLogado != "";
+const registroResolvido = registro.status == "Resolvido";
+if(podeConcluirRegistro && !registroResolvido){
+   btnConcluir.style.display = "block";
+   btnReabrir.style.display = "none";
+}
+else if(podeConcluirRegistro && registroResolvido){
+    btnConcluir.style.display = "none";
+    btnReabrir.style.display = "block";
+}
+else{
+    btnConcluir.style.display = "none";
+    btnReabrir.style.display = "none";
+}
+
+}
+
+// oq ocorre ao clicar btn assumir 
+document.getElementById("btnAssumirObra").addEventListener("click", function(){
+	
+document.getElementById("btnAssumirObra").style.display = "none";	
+document.getElementById("camposAssumirObra").style.display = "block";
+});
+
+// campos para assumir
+document.getElementById("btnConfirmarAssumir").addEventListener("click", function(){
+
+if(!registroSelecionado) return;
+
+const dataInicio = document.getElementById("dataInicioAssumir").value;
+const previsao = document.getElementById("previsaoAssumir").value;
+const status = document.querySelector('input[name="statusAssumir"]:checked')?.value;
+
+if(!dataInicio || !previsao || !status){
+   alert("Preencha todos os campos.");
+   return;
+ }
+
+const dadosAssumir = {dataInicio: dataInicio, previsao: previsao, status: status};
+
+fetch("/api/registros/assumir/" + registroSelecionado.idRegistro, {method: "PUT", headers: {"Content-Type": "application/json"}, body: JSON.stringify(dadosAssumir)})
+.then(response => response.json())
+.then(data => {registroSelecionado = data; const index = todosRegistros.findIndex(r => r.idRegistro == data.idRegistro);
+
+if(index !== -1){
+   todosRegistros[index] = data;
+ }
+abrirpopupExibir(data);
+aplicarFiltros();
+limparCampos();
+
+alert("Obra atualizada");
+    });
+});
 
 
 // fechar popup
 document.getElementById("fecharExibir").addEventListener("click", function(){
 document.getElementById("popupExibir").style.display = "none";
+limparCampos();
 });
   
+// fechar campos assumir
+document.getElementById("fecharAssumirObra").addEventListener("click", function(){
+document.getElementById("camposAssumirObra").style.display = "none";
+limparCampos();
+
+if(registroSelecionado && registroSelecionado.tipoRegistro == "Registro" && tipoUsuarioLogado == "Gestor"){
+   document.getElementById("btnAssumirObra").style.display = "block";
+    }
+
+});
 
 
 //------------------------------------Limpar campos---------------------------------------------------------------------------------------------------
@@ -273,6 +427,12 @@ document.querySelectorAll('#popupRegistro input[type="radio"]').forEach(r => r.c
 document.querySelectorAll('#popupRegistro input[type="checkbox"]').forEach(c => c.checked = false);
 
 document.querySelectorAll('input[name="status"]').forEach(r => r.checked = false);
+
+//assumir
+document.getElementById("dataInicioAssumir").value = "";
+document.getElementById("previsaoAssumir").value = "";
+
+document.querySelectorAll('input[name="statusAssumir"]').forEach(r => r.checked = false);
 
 }
 
@@ -376,6 +536,101 @@ input.disabled = camposObra.style.display == "none";
 });
 }
 
+//------------------------------------ btn de Editar registros/obras------------------------------------------------------------------------------------
+
+document.getElementById("btnEditarRegistro").addEventListener("click", function(){
+
+if(!registroSelecionado) return;
+modoEdicao = true;
+tipoCriacao = "Registro";
+
+document.getElementById("popupExibir").style.display = "none";
+document.getElementById("popupRegistro").style.display = "block";
+
+document.querySelector("#barraPopupRegistro h3").innerText = "Editar Registro";
+document.getElementById("btnSalvarRegistro").innerText = "Salvar alterações";
+
+document.getElementById("tituloRegistro").value = registroSelecionado.titulo;
+document.getElementById("descricaoRegistro").value = registroSelecionado.descricao;
+
+if(registroSelecionado.tipoLocal == "Via"){
+   document.querySelector('input[name="tipoRegistro"][value="IrregularidadeVia"]').checked = true;
+   document.getElementById("camposVia").style.display = "block";
+   document.getElementById("camposPredio").style.display = "none";
+   document.querySelector(`input[name="trafegoV"][value="${registroSelecionado.trafegoV}"]`).checked = true;
+   document.querySelector(`input[name="trafegoP"][value="${registroSelecionado.trafegoP}"]`).checked = true;
+   tipoLocal = "Via";
+    }
+    else{
+    document.querySelector('input[name="tipoRegistro"][value="IrregularidadePredio"]').checked = true;
+    document.getElementById("camposVia").style.display = "none";
+    document.getElementById("camposPredio").style.display = "block";
+
+    document.querySelector(`input[name="funcionamento"][value="${registroSelecionado.funcionamento}"]`).checked = true;
+
+    tipoLocal = "Prédio";
+    }
+
+document.getElementById("ruidoExcessivo").checked = registroSelecionado.ruidoExcessivo;
+document.getElementById("poeiraExcessiva").checked = registroSelecionado.poeiraExcessiva;
+document.getElementById("entulho").checked = registroSelecionado.entulho;
+
+if(registroSelecionado.tipoRegistro == "Obra"){
+   tipoCriacao = "Obra";
+document.getElementById("camposObra").style.display = "block";
+
+document.getElementById("dataInicio").value = registroSelecionado.dataInicio;
+document.getElementById("previsao").value = registroSelecionado.previsao;
+
+const statusObra = document.querySelector( `input[name="status"][value="${registroSelecionado.status}"]`);
+if(statusObra){
+   statusObra.checked = true;
+    }
+}
+else{
+    tipoCriacao = "Registro";
+    document.getElementById("camposObra").style.display = "none";
+}
+
+atualizarCamposFormulario();
+});
+
+//------------------------------------Botão concluir/Voltar------------------------------------------------------------------------------------
+
+document.getElementById("btnConcluirRegistro").addEventListener("click", function(){
+if(!registroSelecionado) return;
+fetch("/api/registros/concluir/" + registroSelecionado.idRegistro, { method: "PUT"}).then(response => response.json()).then(data => {registroSelecionado = data;
+const index = todosRegistros.findIndex(r => r.idRegistro == data.idRegistro);
+
+if(index !== -1){
+    todosRegistros[index] = data;
+    }
+
+aplicarFiltros();
+abrirpopupExibir(data);
+
+alert("Marcado como concluído.");
+    });
+});
+
+document.getElementById("btnReabrirRegistro").addEventListener("click", function(){
+if(!registroSelecionado) return;
+fetch("/api/registros/reabrir/" + registroSelecionado.idRegistro, {method: "PUT"}).then(response => response.json()).then(data => {registroSelecionado = data;
+const index = todosRegistros.findIndex(r => r.idRegistro == data.idRegistro);
+
+if(index !== -1){
+   todosRegistros[index] = data;
+   }
+
+aplicarFiltros();
+abrirpopupExibir(data);
+
+alert("Registro reaberto.");
+    });
+});
+
+
+
 //------------------------------------filtros------------------------------------------------------------------------------------
 const filtros = {tipo: [], local: [], trafegoV: [], trafegoP: [], funcionamento: [], status: [], ruido: false, poeira: false, entulho: false};
 
@@ -400,11 +655,9 @@ opcoesFiltro.style.display = opcoesFiltro.style.display === "block" ? "none" : "
 // ativar/desativar filtros
 document.addEventListener("click", function(e){
 
-  if(e.target.classList.contains("opcaoFiltro")){
-
-    e.target.classList.toggle("ativo");
-
-    aplicarFiltros();
+if(e.target.classList.contains("opcaoFiltro")){
+   e.target.classList.toggle("ativo");
+   aplicarFiltros();
   }
 
 });
@@ -435,6 +688,11 @@ if(opcao.dataset.entulho)
 console.log(filtros);
 	
 let registrosFiltrados = todosRegistros.filter(registro => {
+const filtroImpactoAtivo = filtros.trafegoV.length > 0 || filtros.trafegoP.length > 0 || filtros.funcionamento.length > 0 || filtros.ruido || filtros.poeira || filtros.entulho;
+if (filtroImpactoAtivo &&(registro.status == "Concluído" || registro.status == "Resolvido")) {
+	    return false;
+	}
+	
 if(filtros.tipo.length > 0 && !filtros.tipo.includes(registro.tipoRegistro))
    return false;
 if(filtros.local.length > 0 && !filtros.local.includes(registro.tipoLocal))
@@ -454,7 +712,7 @@ if(filtros.poeira && !registro.poeiraExcessiva)
 if(filtros.entulho && !registro.entulho)
    return false;
 
-    return true;
+   return true;
 });
 
 desenharRegistros(registrosFiltrados);

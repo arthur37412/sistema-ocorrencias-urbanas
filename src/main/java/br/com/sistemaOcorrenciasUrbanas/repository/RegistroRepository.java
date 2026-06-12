@@ -16,4 +16,8 @@ public interface RegistroRepository extends JpaRepository<Registro, Integer> {
 
 	 //buscar por id
 	 Registro findByIdRegistro(int idRegistro);
+	 
+	 List<Registro> findByIdCriador(Integer idCriador);
+
+	 List<Registro> findByIdResponsavel(Integer idResponsavel);
 }

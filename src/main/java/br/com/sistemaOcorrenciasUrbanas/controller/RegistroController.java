@@ -25,7 +25,7 @@ public class RegistroController {
 	
 	@GetMapping
 	public List<Registro> listarTodos(){
-		return registroService.findAll();
+		return registroService.listarRegistrosVisiveisNoMapa();
 	}
 	
 	//buscar por id 

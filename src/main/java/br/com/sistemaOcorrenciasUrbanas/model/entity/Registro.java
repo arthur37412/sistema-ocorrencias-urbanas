@@ -33,10 +33,14 @@ public class Registro {
 	private Double latitude;
 	private Double longitude;
 	private String tipoLocal;
+	@JsonFormat(pattern = "yyyy-MM-dd")
+	private LocalDate dataConclusao;
 
 	// obras assumidas
 	private Integer idResponsavel;
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	private LocalDate dataInicio;
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	private LocalDate previsao;
 	private String status;
 	
@@ -52,7 +56,7 @@ public class Registro {
 		public Registro() {}
 	
 	public Registro(int idRegistro, String titulo, String descricao, String tipoRegistro, Integer idCriador, String nomeResponsavel,
-			LocalDate dataRegistro, Double latitude, Double longitude, String tipoLocal, Integer idResponsavel, LocalDate dataInicio, LocalDate previsao, String status,
+			LocalDate dataRegistro, Double latitude, Double longitude, String tipoLocal, LocalDate dataConclusao, Integer idResponsavel, LocalDate dataInicio, LocalDate previsao, String status,
 			String trafegoV, String trafegoP, String funcionamento, Boolean ruidoExcessivo,
 			Boolean poeiraExcessiva, Boolean entulho) {
 		super();
@@ -66,6 +70,7 @@ public class Registro {
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.tipoLocal = tipoLocal;
+		this.dataConclusao = dataConclusao;
 		this.idResponsavel = idResponsavel;
 		this.dataInicio = dataInicio;
 		this.previsao = previsao;
@@ -239,6 +244,15 @@ public class Registro {
 	public void setNomeResponsavel(String nomeResponsavel) {
 		this.nomeResponsavel = nomeResponsavel;
 	}
+
+	public LocalDate getDataConclusao() {
+		return dataConclusao;
+	}
+
+	public void setDataConclusao(LocalDate dataConclusao) {
+		this.dataConclusao = dataConclusao;
+	}
+	
 	
 	
 }
