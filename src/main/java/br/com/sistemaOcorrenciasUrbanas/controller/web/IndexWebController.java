@@ -1,6 +1,7 @@
 package br.com.sistemaOcorrenciasUrbanas.controller.web;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -183,14 +184,20 @@ public class IndexWebController {
 	            return "redirect:/login";
 	        }
 	        model.addAttribute("usuario", usuario);
+	        List<Registro> registros;
 	        if ("Usuario".equals(usuario.getTipoUsuario())) {
-	            model.addAttribute("registros", registroService.buscarPorCriador(usuario.getIdUsuario()));
+	            registros = registroService.buscarPorCriador(usuario.getIdUsuario());
 	            model.addAttribute("tituloLista", "Minhas Ocorrências");
-	        }
-	        else {
-	            model.addAttribute("registros", registroService.buscarPorResponsavel(usuario.getIdUsuario()));
+	        } else {
+	            registros = registroService.buscarPorResponsavel(usuario.getIdUsuario());
 	            model.addAttribute("tituloLista", "Minhas Obras");
 	        }
+	        LocalDate limite = LocalDate.now().minusDays(7);
+	        registros = registros.stream().filter(registro -> {boolean finalizado = "Concluído".equals(registro.getStatus()) || "Resolvido".equals(registro.getStatus());
+	            return !(finalizado && registro.getDataConclusao() != null && !registro.getDataConclusao().isAfter(limite));
+	            }).toList();
+	        model.addAttribute("registros", registros);
+
 	        return "perfil";
 	    }
 	    

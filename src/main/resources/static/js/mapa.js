@@ -23,33 +23,20 @@ const idRegistroUrl = params.get("registro");
 
 //abre o registro selecinado após abrir atraves da pagina perfil
 if(idRegistroUrl){
-   const registroEncontrado = todosRegistros.find(r => r.idRegistro == idRegistroUrl);
-   if(registroEncontrado){
-      map.setView([registroEncontrado.latitude, registroEncontrado.longitude], 16);
-      abrirpopupExibir(registroEncontrado);
-    }
+const registroEncontrado = todosRegistros.find(r => r.idRegistro == idRegistroUrl);
+if(registroEncontrado){
+   setTimeout(function(){ map.setView([registroEncontrado.latitude, registroEncontrado.longitude],16);
+abrirpopupExibir(registroEncontrado);
+      }, 500);
+   }
 }
 
-/*registros.forEach(registro => {
-        const marcador = L.marker([registro.latitude, registro.longitude])
-        .addTo(map)
-		.on("click", function(){
-	    abrirpopupExibir(registro);
-    });
-});*/
 }).catch(error => console.error(error));
 
-/*limita o mapa a guarlhos, precisa geojson
-map.setMaxBounds(bounds);
-map.on('drag', function () {
-    map.panInsideBounds(bounds, { animate: false });
-});*/
-
-//var marker = L.marker([-23.4538, -46.5333]).addTo(map);
 
 L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png', {
 	minZoom: 12,
-    maxZoom: 16,
+    maxZoom: 17,
     attribution: '&copy; OpenStreetMap & CartoDB'
 }).addTo(map);
 
@@ -66,7 +53,9 @@ camadaGuarulhos = L.geoJSON(geojson, {style: {opacity: 0, fillOpacity: 0}
 }).addTo(map);
 const boundsGuarulhos = camadaGuarulhos.getBounds();
 
+if(!idRegistroUrl){
 map.fitBounds(boundsGuarulhos);
+}
 map.setMaxBounds(boundsGuarulhos.pad(0.3));
 
 map.on("drag", function(){
@@ -172,7 +161,7 @@ const dataInicio = document.getElementById("dataInicio")?.value || null;
 const previsao = document.getElementById("previsao")?.value || null;
 
 if(dataInicio && previsao && previsao < dataInicio){
-   alert("A previsão não pode ser anterior à data de início.");
+   mostrarAviso("A previsão não pode ser anterior à data de início.");
    return;
 }
 
@@ -215,7 +204,7 @@ if(index !== -1){
 aplicarFiltros();
 abrirpopupExibir(data);
 
-alert("Registro atualizado com sucesso.");
+mostrarAviso("Registro atualizado com sucesso.");
     }
  else{
 	todosRegistros.push(data);
@@ -375,12 +364,12 @@ const previsao = document.getElementById("previsaoAssumir").value;
 const status = document.querySelector('input[name="statusAssumir"]:checked')?.value;
 
 if(!dataInicio || !previsao || !status){
-   alert("Preencha todos os campos.");
+   mostrarAviso("Preencha todos os campos.");
    return;
  }
  
  if(dataInicio && previsao && previsao < dataInicio){
-    alert("A previsão não pode ser anterior à data de início.");
+    mostrarAviso("A previsão não pode ser anterior à data de início.");
     return;
  }
 
@@ -398,7 +387,7 @@ abrirpopupExibir(data);
 aplicarFiltros();
 limparCampos();
 
-alert("Obra atualizada");
+mostrarAviso("Obra atualizada");
     });
 });
 
@@ -628,7 +617,7 @@ if(index !== -1){
 aplicarFiltros();
 abrirpopupExibir(data);
 
-alert("Marcado como concluído.");
+mostrarAviso("Marcado como concluído.");
     });
 });
 
@@ -644,7 +633,7 @@ if(index !== -1){
 aplicarFiltros();
 abrirpopupExibir(data);
 
-alert("Registro reaberto.");
+mostrarAviso("Registro reaberto.");
     });
 });
 
@@ -779,3 +768,13 @@ marcadores.push(marcador);
  });
 
 	}
+	
+//------------------------------------avisos------------------------------------------------------------------------------------
+function mostrarAviso(mensagem){
+const aviso = document.getElementById("avisoSistema");
+aviso.innerText = mensagem;
+aviso.classList.add("mostrar");
+setTimeout(function(){
+aviso.classList.remove("mostrar");
+  }, 3000);
+}

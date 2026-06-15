@@ -17,7 +17,7 @@
 
 <body class="index">
 
-		<header class="header">
+		<header class = "header">
       <nav>
 		<a th:href="@{/}" class="logo-navbar">
 		    <img src="/images/logoi.png" alt="InfraMap">
@@ -144,6 +144,7 @@
 		</header>
 		
 		<div id="map"></div>
+		
 		
 		
 <!---------------------------------------------- popup registrar começo--------------------------------------------------------------------------->
@@ -560,6 +561,7 @@
 		
 		<input type="hidden" id="tipoUsuarioLogado" th:value="${usuario != null ? usuario.tipoUsuario : ''}">
 		<input type="hidden" id="idUsuarioLogado" th:value="${usuario != null ? usuario.idUsuario : ''}">
+		<div id="avisoSistema" class="aviso-sistema"></div>
 		
 		<!--Bibliotecas-->
 		<script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>

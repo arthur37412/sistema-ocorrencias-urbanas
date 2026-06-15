@@ -214,12 +214,15 @@ svg.leaflet-zoom-animated {
 /* cursors */
 
 .leaflet-interactive {
-	cursor: pointer;
+	cursor: default;
 	}
 .leaflet-grab {
 	cursor: -webkit-grab;
 	cursor:    -moz-grab;
 	cursor:         grab;
+	}
+	.leaflet-marker-icon{
+	    cursor: pointer !important;
 	}
 .leaflet-crosshair,
 .leaflet-crosshair .leaflet-interactive {
