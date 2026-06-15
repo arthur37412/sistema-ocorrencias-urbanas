@@ -11,31 +11,19 @@
 
 <body>
 
-<header class="header">
-    <nav>
-        <h1 class="text-left">
-            Sistema de Ocorrências Urbanas
-        </h1>
+	<header class="header">
+	    <nav class="navbar-simples">
+	        <a th:href="@{/}" class="logo-navbar">
+	            <img src="/images/logoi.png" alt="InfraMap">
+	        </a>
 
-        <div class="area-direita">
+	        <a th:href="@{/sair}" class="btn-sair-navbar" title="Sair">
+	            <img src="/images/sair.png" alt="Sair">
+	        </a>
+	    </nav>
+	</header>
 
-			<a th:href="@{/}" class="btn-mapa">
-			    <img src="/images/mapa.png" alt="Mapa">
-			</a>
-
-			    <a th:href="@{/sair}" class="botao-logoff">
-			      Sair
-			    </a>
-
-			    </div>
-
-            </div>
-
-        </div>
-    </nav>
-</header>
-
-<main class="pagina-perfil">
+<main class="pagina-perfil conteudof">
 
     <section class="card-perfil">
 
@@ -127,6 +115,23 @@
     </section>
 
 </main>
+
+<!--rodape-->
+		<footer class="footer">
+
+		    <p class="footer-titulo">
+		        InfraMap
+		    </p>
+
+		    <p class="footer-descricao">
+		        Sistema de Monitoramento de Obras e Ocorrências Urbanas
+		    </p>
+
+		    <p class="copyright">
+		        © 2026 InfraMap. Todos os direitos reservados.
+		    </p>
+
+		</footer>
 
       <!--Javascript-->
 	  <script src="/js/script.js"></script>

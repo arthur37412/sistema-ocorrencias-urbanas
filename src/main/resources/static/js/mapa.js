@@ -167,10 +167,14 @@ const poeiraExcessiva = document.getElementById("poeiraExcessiva").checked;
 const entulho = document.getElementById("entulho").checked;
 
 //radiobutoons de obras
-
 const dataInicio = document.getElementById("dataInicio")?.value || null;
 
 const previsao = document.getElementById("previsao")?.value || null;
+
+if(dataInicio && previsao && previsao < dataInicio){
+   alert("A previsão não pode ser anterior à data de início.");
+   return;
+}
 
 const status = document.querySelector('input[name="status"]:checked')?.value || null;
 
@@ -214,12 +218,8 @@ abrirpopupExibir(data);
 alert("Registro atualizado com sucesso.");
     }
  else{
-todosRegistros.push(data);
-L.marker([data.latitude, data.longitude])
-.addTo(map)
-.on("click", function(){
- abrirpopupExibir(data);
-        });
+	todosRegistros.push(data);
+	    aplicarFiltros();
     }
 	
 
@@ -282,9 +282,9 @@ document.getElementById("responsavelExibir").innerText = registro.nomeResponsave
 
 document.getElementById("statusExibir").innerText = registro.status;
 document.getElementById("descricaoExibir").innerText = registro.descricao;
-document.getElementById("dataInicioExibir").innerText = registro.dataInicio;
+document.getElementById("dataInicioExibir").innerText = formatarDatas(registro.dataInicio);
 
-document.getElementById("previsaoExibir").innerText = registro.previsao;
+document.getElementById("previsaoExibir").innerText = formatarDatas(registro.previsao);
 document.getElementById("tipoExibir").innerText = registro.tipoRegistro;
 document.getElementById("localExibir").innerText = registro.tipoLocal;
 
@@ -310,8 +310,8 @@ document.getElementById("entulhoExibir").innerText = registro.entulho ? "Sim" : 
 if(registro.tipoRegistro == "Obra"){
 document.getElementById("exibirObra").style.display = "block";
 document.getElementById("statusExibir").innerText = registro.status;
-document.getElementById("dataInicioExibir").innerText = registro.dataInicio;
-document.getElementById("previsaoExibir").innerText = registro.previsao;
+document.getElementById("dataInicioExibir").innerText = formatarDatas(registro.dataInicio);
+document.getElementById("previsaoExibir").innerText = formatarDatas(registro.previsao);
 document.getElementById("responsavelExibir").innerText = registro.nomeResponsavel;
     }
 else{
@@ -340,7 +340,7 @@ if ((registro.tipoRegistro == "Registro" && !registro.idResponsavel && tipoUsuar
 const btnConcluir = document.getElementById("btnConcluirRegistro");
 const btnReabrir = document.getElementById("btnReabrirRegistro");
 
-const podeConcluirRegistro = registro.tipoRegistro == "Registro" && tipoUsuarioLogado != "";
+const podeConcluirRegistro = registro.tipoRegistro == "Registro" && tipoUsuarioLogado != "" && tipoUsuarioLogado != "Gestor";
 const registroResolvido = registro.status == "Resolvido";
 if(podeConcluirRegistro && !registroResolvido){
    btnConcluir.style.display = "block";
@@ -369,6 +369,7 @@ document.getElementById("btnConfirmarAssumir").addEventListener("click", functio
 
 if(!registroSelecionado) return;
 
+
 const dataInicio = document.getElementById("dataInicioAssumir").value;
 const previsao = document.getElementById("previsaoAssumir").value;
 const status = document.querySelector('input[name="statusAssumir"]:checked')?.value;
@@ -377,6 +378,12 @@ if(!dataInicio || !previsao || !status){
    alert("Preencha todos os campos.");
    return;
  }
+ 
+ if(dataInicio && previsao && previsao < dataInicio){
+    alert("A previsão não pode ser anterior à data de início.");
+    return;
+ }
+
 
 const dadosAssumir = {dataInicio: dataInicio, previsao: previsao, status: status};
 
@@ -512,7 +519,19 @@ arrastarRegistro = false;
 function formatarCampos(valor){
 
 return valor == "NAO_AFETA" || valor == "NaoImpede" ? "Não afeta" : valor;
+
 }
+
+function formatarDatas(datas){ 
+if(!datas){
+return "";
+}
+const partes = datas.split("-");
+if(partes.length !== 3){
+   return datas;
+}
+return partes[2] + "/" + partes[1] + "/" + partes[0];
+	}
 
 //------------------------------------Ocultar campos sem quebrar os requireds------------------------------------------------------------------
 
@@ -644,6 +663,18 @@ const painel = document.getElementById("painelFiltros");
 painel.style.display = painel.style.display === "block" ? "none" : "block";
 });
 
+//fecha ao clicar fora da caixad e filtros
+document.addEventListener("click", function(e){
+
+const containerFiltros = document.getElementById("containerFiltros");
+const painelFiltros = document.getElementById("painelFiltros");
+
+if(!containerFiltros.contains(e.target)){
+   painelFiltros.style.display = "none";
+    }
+
+});
+
 // abrir/fechar categorias
 document.querySelectorAll(".categoria").forEach(categoria => {
 categoria.addEventListener("click", function(){
@@ -689,22 +720,36 @@ console.log(filtros);
 	
 let registrosFiltrados = todosRegistros.filter(registro => {
 const filtroImpactoAtivo = filtros.trafegoV.length > 0 || filtros.trafegoP.length > 0 || filtros.funcionamento.length > 0 || filtros.ruido || filtros.poeira || filtros.entulho;
-if (filtroImpactoAtivo &&(registro.status == "Concluído" || registro.status == "Resolvido")) {
-	    return false;
-	}
+const registroFinalizado = registro.status == "Concluído" || registro.status == "Resolvido";
+
+const filtroNaoAfetaAtivo =filtros.trafegoV.includes("NaoImpede") || filtros.trafegoP.includes("NaoImpede") || filtros.funcionamento.includes("Pleno");
+
+const algumFiltroDeImpactoPesado = filtros.trafegoV.some(f => f != "NaoImpede") || filtros.trafegoP.some(f => f != "NaoImpede") || filtros.funcionamento.some(f => f != "Pleno") || filtros.ruido || filtros.poeira || filtros.entulho;
+if(registroFinalizado && filtroImpactoAtivo && !filtroNaoAfetaAtivo){
+   return false;
+}
+
+if(registroFinalizado && algumFiltroDeImpactoPesado){
+   return false;
+}
+
 	
 if(filtros.tipo.length > 0 && !filtros.tipo.includes(registro.tipoRegistro))
    return false;
 if(filtros.local.length > 0 && !filtros.local.includes(registro.tipoLocal))
    return false;
-if(filtros.trafegoV.length > 0 && !filtros.trafegoV.includes(registro.trafegoV))
-   return false;
-if(filtros.trafegoP.length > 0 && !filtros.trafegoP.includes(registro.trafegoP))
-   return false;
-if(filtros.funcionamento.length > 0 && !filtros.funcionamento.includes(registro.funcionamento))
-   return false;
-if(filtros.status.length > 0 && !filtros.status.includes(registro.status))
-   return false;
+if(filtros.trafegoV.length > 0){const passaTrafegoV = filtros.trafegoV.includes(registro.trafegoV) || (filtros.trafegoV.includes("NaoImpede") && ( registro.trafegoV == null || registro.trafegoV === ""));
+   if(!passaTrafegoV) 
+   return false;}
+if(filtros.trafegoP.length > 0){const passaTrafegoP = filtros.trafegoP.includes(registro.trafegoP) || (filtros.trafegoP.includes("NaoImpede") && (registro.trafegoP == null || registro.trafegoP === ""));
+   if(!passaTrafegoP)
+   return false;}
+if(filtros.funcionamento.length > 0){const passaFuncionamento = filtros.funcionamento.includes(registro.funcionamento) || (filtros.funcionamento.includes("Pleno") && (registro.funcionamento == null || registro.funcionamento === ""));
+   if(!passaFuncionamento)
+   return false;}
+if(filtros.status.length > 0){const passaStatus = filtros.status.includes(registro.status) || (filtros.status.includes("Em andamento") && registro.status == "Pendente") || (filtros.status.includes("Concluído") && registro.status == "Resolvido");
+   if(!passaStatus)
+   return false;}
 if(filtros.ruido && !registro.ruidoExcessivo)
    return false;
 if(filtros.poeira && !registro.poeiraExcessiva)

@@ -10,15 +10,15 @@
 
 <body>
 	
-	<header class="header">
-		      <nav>
-		        <h1 class="text-left">
-		            Sistema de Ocorrências Urbanas
-		        </h1>
-				
-				</nav>
-		</header>
+		<header class="header">
+	    <nav class="navbar-simples">
+	        <a th:href="@{/}" class="logo-navbar">
+	            <img src="/images/logoi.png" alt="InfraMap">
+	        </a>
+	    </nav>
+	</header>
 
+	<main class="conteudof">
     <div class="container-login">
 
         <h1>Criar Conta</h1>
@@ -59,6 +59,24 @@
         </a>
 
     </div>
+	
+	</main>
+	<!--rodape-->
+			<footer class="footer">
+
+			    <p class="footer-titulo">
+			        InfraMap
+			    </p>
+
+			    <p class="footer-descricao">
+			        Sistema de Monitoramento de Obras e Ocorrências Urbanas
+			    </p>
+
+			    <p class="copyright">
+			        © 2026 InfraMap. Todos os direitos reservados.
+			    </p>
+
+			</footer>
 	
 	<!--javascript-->
 	<script src="/js/script.js"></script>

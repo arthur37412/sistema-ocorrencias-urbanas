@@ -1,7 +1,7 @@
 :root{
-    --cor-primaria: #2563eb;
+    --cor-primaria: #bfdbfe; /*navbar*/
     --cor-primaria-hover: #1d4ed8;
-    --cor-fundo: #eef2f7;
+    --cor-fundo:  #eef6ff; /*fundo*/
     --cor-card: #ffffff;
     --cor-texto: #1f2937;
     --cor-borda: #cbd5e1;
@@ -30,7 +30,7 @@ nav{
 	
 	padding: 0 26px 0 0;
 	
-    background: rgb(255, 255, 255);
+    background: #dbeafe;
 
     border-bottom: 1px solid rgb(0, 0, 0);
 
@@ -77,11 +77,12 @@ nav{
 
 
 /* =========================
-   BOTÃO CRIAR
+   BOTÃO CRIAR/ENTRAR
 ========================= */
 
 #btnRegistrar,
-#btnCriarObra{
+#btnCriarObra,
+.botao-nav{
 
     padding: 10px 18px;
 
@@ -101,7 +102,8 @@ nav{
 }
 
 #btnRegistrar:hover,
-#btnCriarObra:hover{
+#btnCriarObra:hover,
+.botao-nav:hover{
 
     background: rgb(0, 128, 192);
 }
@@ -125,9 +127,9 @@ nav{
 
 #btnFiltros:hover{
 
-    background: #ccfbf1;
+    background: rgb(192, 192, 192);
 
-    border-color: #0f766e;
+    border-color: rgb(192, 192, 192);
 }
 
 /* botão desativado sem login*/
@@ -536,6 +538,16 @@ body{
     text-align: center;
 }
 
+#barraPopupRegistro{
+    margin-left: -16px;
+    margin-right: -16px;
+    margin-top: 0;
+    padding: 14px 16px;
+    background: var(--cor-fundo);
+    border-radius: 14px 14px 0 0;
+    border-bottom: 1px solid #e5e7eb;
+}
+
 /* botão fechar*/
 
 .fechar-popup{
@@ -622,7 +634,7 @@ body{
 }
 
 
-/* label radio/checkbox */
+/* texto radio/checkbox */
 
 .opcoes label,
 .opcoes-checkbox label{
@@ -680,7 +692,7 @@ body{
 }
 
 
-/* escondido inicialmente */
+/* escondidos inicialmente */
 
 #camposPredio{
 
@@ -696,108 +708,90 @@ body{
 ========================= */
 
 .popup-exibir{
-
     position: fixed;
-
     top: 50%;
-
     left: 50%;
-
     transform: translate(-50%, -50%);
-
     background: white;
-
-    padding: 0 16px 16px 16px;
-
-    border-radius: 12px;
-
+    padding: 0 0 18px 0;
+    border-radius: 14px;
     z-index: 99999;
-
     display: none;
-
-    width: 430px;
-
+    width: 460px;
     max-height: 85vh;
-
     overflow-y: auto;
-
-    box-shadow: 0 0 15px rgba(0,0,0,0.15);
+    box-shadow: 0 8px 28px rgba(0,0,0,0.22);
 }
 
-/* título */
-
-.popup-exibir h3{
-
-    margin-top: 0;
-
-    margin-bottom: 14px;
-
-    font-size: 18px;
-
-    text-align: center;
-}
-
-/* textos */
-
-.popup-exibir p{
-
-    margin: 8px 0;
-
-    font-size: 14px;
-
-    line-height: 1.4;
-}
-
-/* subtítulos */
-
-.popup-exibir h4{
-
-    margin-top: 16px;
-
-    margin-bottom: 8px;
-
-    font-size: 15px;
-}
-
-/* separação */
-
-.popup-exibir div{
-
-    margin-bottom: 10px;
-}
-
+/* barra superior */
 .barra-popup{
-
     display: flex;
-
     justify-content: space-between;
-
     align-items: center;
-
     cursor: move;
-
-    margin-bottom: 12px;
-	
-	padding-top: 16px;
+    margin-bottom: 14px;
+    padding: 14px 16px;
+    background: var(--cor-fundo);
+    border-radius: 14px 14px 0 0;
+    border-bottom: 1px solid #dbeafe;
 }
 
-.barra-popup h3{
+.barra-popup h3,
+.popup-exibir h3{
     margin: 0;
+    font-size: 19px;
+    font-weight: 700;
+    text-align: left;
+    color: #1f2937;
+}
+
+/* área dos botões do topo */
+.acoesPopup{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 0;
+}
+
+/* botâo concluir/reabrir */
+.btn-acao-popup{
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    font-size: 22px;
+    font-weight: bold;
+    color: #555;
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    position: static;
+}
+
+#btnConcluirRegistro,
+#btnReabrirRegistro{
+    color: #555;
+    transform: translate(-14px, -5px);
 }
 
 #btnEditarRegistro{
     background: none;
     border: none;
     padding: 0;
+    margin: 0;
     cursor: pointer;
-	margin-right: 15px;
-
+    width: 26px;
+    height: 26px;
     display: flex;
     align-items: center;
     justify-content: center;
-
-    position: relative;
-    top: -1px;
+    position: static;
+    transform: translate(-16px, -6px);
 }
 
 #btnEditarRegistro img{
@@ -807,65 +801,137 @@ body{
     display: block;
 }
 
-#btnEditarRegistro:hover{
-    opacity: 0.7;
-}
-
-.acoesPopup{
+.fechar-popup{
+    font-size: 26px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #555;
+    width: 26px;
+    height: 26px;
     display: flex;
     align-items: center;
-    gap: 20px;
+    justify-content: center;
+    line-height: 1;
 }
-/*campos de assumir*/
+
+.btn-acao-popup:hover,
+#btnEditarRegistro:hover,
+.fechar-popup:hover{
+    opacity: 0.65;
+}
+
+/* conteúdo */
+.popup-exibir p,
+.popup-exibir h4{
+    margin-left: 18px;
+    margin-right: 18px;
+}
+
+.popup-exibir > div:not(.barra-popup):not(#camposAssumirObra){
+    margin-left: 18px;
+    margin-right: 18px;
+}
+
+#exibirVia,
+#exibirPredio{
+    padding-bottom: 6px;
+    border-bottom: 1px solid #eef2f7;
+}
+
+#exibirVia p,
+#exibirPredio p,
+#exibirObra p{
+    margin-left: 0;
+    margin-right: 0;
+}
+
+#exibirObra{
+    margin-top: 16px;
+    padding: 14px;
+    border: 1px solid #dbeafe;
+    border-radius: 10px;
+    background: #f8fbff;
+}
+
+.popup-exibir p{
+    margin-top: 9px;
+    margin-bottom: 9px;
+    font-size: 14px;
+    line-height: 1.45;
+    color: #2f343b;
+}
+
+.popup-exibir b{
+    color: #1f2937;
+    font-weight: 700;
+}
+
+.popup-exibir h4{
+    margin-top: 18px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    font-weight: 700;
+    color: rgb(0, 0, 0);
+}
+
+/* botão assumir obra */
+#btnAssumirObra{
+    margin: 14px 18px 0 18px;
+    width: calc(100% - 36px);
+    padding: 10px;
+    border: none;
+    border-radius: 9px;
+    background: #2563eb;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+#btnAssumirObra:hover{
+    background: #1d4ed8;
+}
+
+/* campos de assumir */
 #camposAssumirObra{
-  margin-top: 12px;
-  padding-top: 12px;
-  border-top: 1px solid #ddd;
+    margin: 16px 18px 0 18px;
+    padding: 14px;
+    border: 1px solid #dbeafe;
+    background: #f8fbff;
+    border-radius: 10px;
 }
 
 .barraAssumir{
-
     display: flex;
-	
     justify-content: space-between;
-	
     align-items: center;
-	
     margin-bottom: 12px;
-	
+    padding-bottom: 8px;
+    border-bottom: 1px solid #e5e7eb;
 }
 
 .barraAssumir h4{
-
     margin: 0;
-
     font-size: 16px;
-
     font-weight: bold;
-
-    color: #333;
+    color: rgb(0, 0, 0);
 }
 
 .linha-campo{
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    align-items: center;
+    gap: 12px;
 }
 
 .linha-campo input[type="date"]{
-  width: 180px;
-  margin-bottom: 0;
+    width: 100%;
+    margin-bottom: 0;
 }
 
 .fechar-assumir{
-
     font-size: 24px;
-
     font-weight: bold;
-
     cursor: pointer;
-
     color: #666;
 }
 
@@ -874,92 +940,64 @@ body{
 }
 
 #camposAssumirObra input[type="date"]{
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 12px;
-  box-sizing: border-box;
-  border: 1px solid #d6d6d6;
-  border-radius: 8px;
-  outline: none;
-  font-size: 14px;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 0;
+    box-sizing: border-box;
+    border: 1px solid #d6d6d6;
+    border-radius: 8px;
+    outline: none;
+    font-size: 14px;
 }
 
 #camposAssumirObra input[type="date"]:focus{
-  border-color: #b8b8b8;
+    border-color: #93c5fd;
 }
 
 #camposAssumirObra .grupo-campos{
-  margin-bottom: 12px;
+    margin-bottom: 12px;
 }
 
 #camposAssumirObra .grupo-campos label{
-  font-size: 14px;
+    font-size: 14px;
 }
 
 #camposAssumirObra .opcoes{
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 14px;
-  margin-top: 6px;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 12px;
+    align-items: center;
+    margin-top: 6px;
 }
 
 #camposAssumirObra .opcoes label{
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  margin: 0;
-  font-size: 13px;
-  cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin: 0;
+    font-size: 13px;
+    cursor: pointer;
+    white-space: nowrap;
 }
 
 #camposAssumirObra .opcoes input{
-  margin: 0;
+    margin: 0;
 }
 
 #camposAssumirObra button{
-  width: 100%;
-  padding: 10px;
-  border: none;
-  border-radius: 8px;
-  background: #0d6efd;
-  color: white;
-  cursor: pointer;
-  font-size: 14px;
-  margin-top: 8px;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    background: #2563eb;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 8px;
 }
 
 #camposAssumirObra button:hover{
-  background: #0b5ed7;
-}
-
-.btn-acao-popup{
-    background: none;
-    border: none;
-    padding: 0;
-    margin: 0;
-    cursor: pointer;
-
-    font-size: 22px;
-    font-weight: bold;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    position: relative;
-    top: -2px;
-}
-
-#btnConcluirRegistro{
-    color: #198754;
-}
-
-#btnReabrirRegistro{
-    color: #fd7e14;
-}
-
-.btn-acao-popup:hover{
-    opacity: 0.7;
+    background: #1d4ed8;
 }
 
 /* =========================
@@ -1245,38 +1283,93 @@ body{
 
 .footer{
 
-    background: #ffffff;
+    background: #dbeafe;
 
-    border-top: 1px solid #cbd5e1;
+    border-top: 1px solid #e5e7eb;
 
-    padding: 20px;
+    padding: 16px 20px;
 
     text-align: center;
 
-    margin-top: 0;
+    box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
+}
+
+.footer p{
+    margin: 0;
 }
 
 .footer-titulo{
 
-    font-size: 20px;
+    font-size: 22px;
 
-    font-weight: bold;
+    font-weight: 700;
 
     color: #1f2937;
 
-    margin-bottom: 8px;
+    margin-bottom: 6px;
 }
 
 .footer-descricao{
 
     color: #6b7280;
 
-    margin-bottom: 12px;
+    margin-bottom: 8px;
+
+    font-size: 14px;
 }
 
 .copyright{
 
     color: #9ca3af;
 
-    font-size: 14px;
+    font-size: 13px;
+}
+
+/* =========================
+   OUTRAS TELAS
+========================= */
+
+.navbar-simples{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    height: 78px;
+    padding: 0 26px 0 0;
+
+    background: #dbeafe;
+    border-bottom: 1px solid #bfdbfe;
+    box-shadow: var(--sombra-card);
+}
+
+.btn-sair-navbar{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 42px;
+    height: 42px;
+
+    border-radius: 8px;
+    transition: 0.2s;
+}
+
+.btn-sair-navbar:hover{
+    background: rgba(0,0,0,0.08);
+}
+
+.btn-sair-navbar img{
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+}
+
+/* serve para não fazer o footer subir apra metade da tela */
+.conteudof{
+    min-height: calc(100vh - 180px);
+}
+
+/*cor de tds os fundo menos index*/
+body:not(.index){
+    background: #eef6ff;
 }
